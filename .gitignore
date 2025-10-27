@@ -4,6 +4,7 @@ node_modules
 *.jpg
 *.jpeg
 *.png
+temp*
 
 por.traineddata
 eng.traineddata
