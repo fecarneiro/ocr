@@ -5,7 +5,7 @@ import fs from 'node:fs/promises';
 //   console.log(data);
 // })();
 
-const regex = /casa/g;
+const regex = /Casa/gi;
 const text = 'a casa a logo';
 const match = text.match(regex);
 console.log(match);
