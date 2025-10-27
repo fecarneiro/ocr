@@ -142,7 +142,7 @@ const pdfPath = process.argv[2] || 'test.pdf';
 ocrPdf(pdfPath, {
   language: 'por', // Language
   scale: 2.0, // Quality (2.0 = good balance)
-  saveImages: false, // true = save debug images
+  saveImages: true, // true = save debug images
   outputFile: 'result.txt',
 })
   .then((result) => {

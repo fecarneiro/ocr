@@ -6,6 +6,8 @@ A Node.js tool that extracts text from PDF files using Optical Character Recogni
 
 1. Install the required dependencies:
    ```bash
+   npm install
+   or
    npm install pdfjs-dist@3.11.174 canvas tesseract.js
    ```
 
