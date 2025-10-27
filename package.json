@@ -11,8 +11,6 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "canvas": "^3.2.0",
-    "pdfjs-dist": "^5.4.296",
     "tesseract.js": "^6.0.1"
   }
 }

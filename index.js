@@ -1,36 +1,18 @@
-import fs from 'node:fs/promises';
-import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs';
-import { createCanvas } from 'canvas';
+import { fromPath } from 'pdf2pic';
 
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  'pdfjs-dist/legacy/build/pdf.worker.mjs';
+const options = {
+  density: 100,
+  saveFilename: 'untitled',
+  savePath: './images',
+  format: 'png',
+  width: 600,
+  height: 600,
+};
+const convert = fromPath('example.pdf', options);
+const pageToConvertAsImage = 1;
 
-/**
- * Node: binários chamado Buffer
- * pdfjs-dist foi feito para navegador, e espera Uint8Array
- *
- */
+convert(pageToConvertAsImage, { responseType: 'image' }).then((resolve) => {
+  console.log('Page 1 is now converted as image');
 
-async function readFile() {
-  try {
-    const dataBuffer = await fs.readFile('example.pdf');
-    const uint8Array = new Uint8Array(dataBuffer);
-    const loadingTask = pdfjsLib.getDocument(uint8Array);
-    const pdf = loadingTask.promise;
-
-    let fullText = '';
-
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const textContent = await page.getTextContent()
-
-      const pageText = text.content
-  } catch (err) {
-    console.log(err);
-  }
-}
-}
-readFile();
-// task.promise.then((pdf) => {
-//   console.log(`pdf loaded. total pages: ${pdf.numPages}`);
-// });
+  return resolve;
+});
