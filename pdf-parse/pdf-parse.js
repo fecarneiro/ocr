@@ -8,8 +8,12 @@ async function main(file) {
 
     const parser = new PDFParse({ data: buffer });
     const result = await parser.getText(parser);
-    console.log(result);
-    console.log(result.text);
+    const found = result.pages;
+    let foundEmpty = found.find((page) => found.text === '');
+    console.log(foundEmpty);
+    // if (foundEmpty) {
+    //   console.log('tem vazio');
+    // }
     console.timeEnd('timer');
   } catch (e) {
     if (e.message != 'Invalid PDF structure.') {
@@ -19,5 +23,7 @@ async function main(file) {
   }
 }
 
-const file = 'test2.pdf';
+// const file = 'test-png.pdf';
+// const file = 'page1.png';
+const file = 'test-png.pdf';
 main(file);

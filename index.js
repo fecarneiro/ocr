@@ -9,11 +9,13 @@ async function main(file) {
     const buffer = await fs.readFile(file);
     const parser = new PDFParse({ data: buffer });
     const result = await parser.getText(parser);
-    console.log(result.text);
-    return;
+    const found = result.pages.find((element))
+      return;
+    }
   } catch (e) {
     if (e.message != 'Invalid PDF structure.') {
       console.log(e);
+    } else {
     }
   }
   try {
