@@ -5,6 +5,8 @@ node_modules
 *.jpeg
 *.png
 temp*
+dev*
 
 por.traineddata
 eng.traineddata
+
