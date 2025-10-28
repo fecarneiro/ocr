@@ -3,6 +3,8 @@ import { createWorker } from 'tesseract.js';
 import fs from 'node:fs/promises';
 import { dtaGeralRegex, dtaLocationRegex } from './regex/dtaRegex.js';
 
+const start = new Date();
+
 async function main(pdfPath) {
   const document = await pdf(pdfPath, { scale: 4 });
   const worker = await createWorker('por');
@@ -41,6 +43,8 @@ async function main(pdfPath) {
   console.log(result);
 
   await worker.terminate();
+  const end = new Date();
+  console.log(end - start);
   return result;
 }
 
