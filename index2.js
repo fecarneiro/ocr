@@ -19,13 +19,17 @@ async function main(pdfPath) {
     // await fs.appendFile(`ext${file}.txt`, text, 'utf8');
   }
 
+  let result = {};
   for await (const [key, value] of Object.entries(dtaRegex)) {
     const fullMatch = extractedText.match(value);
     const match = fullMatch ? fullMatch[1] : null;
-
-    console.log(`${key}: ${match}`);
+    result[key] = match;
+    // console.log(`${key}: ${match}`);
   }
+
+  console.log(result);
   await worker.terminate();
+  return result;
 }
 
 const pdfPath = process.argv[2] || 'dta.pdf';
