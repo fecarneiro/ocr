@@ -1,11 +1,13 @@
-const { PDFParse } = require('pdf-parse');
-// import { PDFParse } from 'pdf-parse';
+import { PDFParse } from 'pdf-parse';
+import fs from 'node:fs/promises';
 
-async function run() {
-  const parser = new PDFParse({ url: 'https://bitcoin.org/bitcoin.pdf' });
+async function main(file) {
+  const readFile = await fs.readFile(file);
+  const parser = new PDFParse(file);
 
   const result = await parser.getText();
   console.log(result.text);
 }
 
-run();
+const file = 'dta.pdf';
+run(file);
