@@ -9,10 +9,10 @@ async function main(file) {
     const result = await parser.getText(parser);
     console.log(result.text);
     console.timeEnd('timer');
-  } catch (err) {
-    console.error(err.message);
+  } catch {
+    console.log('erro');
   }
 }
 
-const file = 'page1.png';
+const file = 'dta2.pdf';
 main(file);
