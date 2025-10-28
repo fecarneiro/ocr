@@ -1,7 +1,7 @@
 import { pdf } from 'pdf-to-img';
 import { createWorker } from 'tesseract.js';
 import fs from 'node:fs/promises';
-import { dtaRegex } from './regex/dtaRegex.js';
+import { dtaGeralRegex, dtaLocationRegex } from './regex/dtaRegex.js';
 
 async function main(pdfPath) {
   const document = await pdf(pdfPath, { scale: 4 });
@@ -20,14 +20,23 @@ async function main(pdfPath) {
   }
 
   let result = {};
-  for await (const [key, value] of Object.entries(dtaRegex)) {
+  for await (const [key, value] of Object.entries(dtaGeralRegex)) {
     const fullMatch = extractedText.match(value);
     const match = fullMatch ? fullMatch[1] : null;
     result[key] = match;
     // console.log(`${key}: ${match}`);
   }
 
-  console.log(result);
+  const locs = [];
+  const locations = extractedText.matchAll(/Unidade\s+Local\s*:\s*([^\n]+)/g);
+  for (const location of locations) {
+    locs.push(location[1]);
+  }
+  // const origin = { origin: locs[0] };
+  // const destination = { destination: locs[1] };
+ const origin = { result.origin locs[0] };
+  const destination = { destination: locs[1] };
+  // console.log(result);
   await worker.terminate();
   return result;
 }
