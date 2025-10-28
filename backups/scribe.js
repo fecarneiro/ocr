@@ -1,7 +1,7 @@
 import scribe from 'scribe.js-ocr';
 
-const start = Date.now();
+const file = 'dta.pdf';
 scribe
-  .extractText(['test.pdf'])
+  .extractText([file])
   .then((res) => console.log(res))
   .then(() => console.log(`duration: ${Date.now() - start} ms`));

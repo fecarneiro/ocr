@@ -5,8 +5,6 @@ const dtaGeralRegex = {
   descricaoCarga: /Descrição\s+da\s+Carga\s+na\s+Fatura\s*:\s*([^\n]+)/,
 };
 
-const dtaLocationRegex = {
-  destinoUnidade: /Unidade\s+Local\s*:\s*([^\n]+)/,
-};
+const dtaLocationRegex = /Unidade\s+Local\s*:\s*([^\n]+)/g;
 
 export { dtaGeralRegex, dtaLocationRegex };

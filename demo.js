@@ -9,14 +9,18 @@ async function main(pdfPath) {
 
   let file = Math.floor(Math.random() * 1000000);
   let extractedText = '';
+  let counter = 1;
 
   for await (const image of document) {
+    await fs.writeFile(`page${counter}.png`, image);
+    counter++;
     const {
       data: { text },
     } = await worker.recognize(image);
     extractedText += text;
-    // console.log(text);
-    // await fs.appendFile(`ext${file}.txt`, text, 'utf8');
+
+    console.log(text);
+    await fs.appendFile(`ext${file}.txt`, text, 'utf8');
   }
 
   let result = {};
@@ -24,19 +28,18 @@ async function main(pdfPath) {
     const fullMatch = extractedText.match(value);
     const match = fullMatch ? fullMatch[1] : null;
     result[key] = match;
-    // console.log(`${key}: ${match}`);
   }
 
   const locs = [];
-  const locations = extractedText.matchAll(/Unidade\s+Local\s*:\s*([^\n]+)/g);
+  const locations = extractedText.matchAll(dtaLocationRegex);
   for (const location of locations) {
     locs.push(location[1]);
   }
-  // const origin = { origin: locs[0] };
-  // const destination = { destination: locs[1] };
- const origin = { result.origin locs[0] };
-  const destination = { destination: locs[1] };
-  // console.log(result);
+
+  result.origin = locs[0];
+  result.destination = locs[1];
+  console.log(result);
+
   await worker.terminate();
   return result;
 }
