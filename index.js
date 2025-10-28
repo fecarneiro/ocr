@@ -4,18 +4,21 @@ import fs from 'node:fs/promises';
 import { dtaGeralRegex, dtaLocationRegex } from './regex/dtaRegex.js';
 import { PDFParse } from 'pdf-parse';
 
-async function main(pdfPath) {
+async function main(file) {
   try {
     const buffer = await fs.readFile(file);
     const parser = new PDFParse({ data: buffer });
     const result = await parser.getText(parser);
     console.log(result.text);
-    console.log('1) PDF-PARSE');
-    throw new Error();
-  } catch {
-    const document = await pdf(pdfPath, { scale: 4 });
+    return;
+  } catch (e) {
+    if (e.message != 'Invalid PDF structure.') {
+      console.log(e);
+    }
+  }
+  try {
+    const document = await pdf(file, { scale: 4 });
     const worker = await createWorker('por');
-
     let extractedText = '';
 
     for await (const image of document) {
@@ -44,8 +47,10 @@ async function main(pdfPath) {
     console.log('2) OCR');
     await worker.terminate();
     return result;
+  } catch (e) {
+    console.error(e.message);
   }
 }
 
-const pdfPath = process.argv[2] || 'dta2.pdf';
-main(pdfPath);
+const file = process.argv[2] || 'test2.pdf';
+main(file);
