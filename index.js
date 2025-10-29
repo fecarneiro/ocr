@@ -17,11 +17,8 @@ async function tryTextExtraction() {
       }
     });
 
-    console.log('Parsing PDF with pdf-parse');
-
     const data = extractor.text;
     const result = await matchFields(data);
-    console.log(result);
     return result;
   } catch (err) {
     console.error(err);

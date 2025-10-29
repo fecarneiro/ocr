@@ -8,6 +8,7 @@ class SuccessResult {
 class FailureResult {
   constructor(error) {
     this.success = false;
+    this.title = title;
     this.error = error;
   }
 }
