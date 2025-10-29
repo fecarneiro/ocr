@@ -19,7 +19,10 @@ async function tryTextExtraction() {
 
     const data = extractor.text;
     const result = await matchFields(data);
-    return result;
+    return SuccessResult {
+      success,
+
+    }
   } catch (err) {
     console.error(err);
   }

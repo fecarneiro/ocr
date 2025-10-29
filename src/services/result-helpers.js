@@ -6,9 +6,9 @@ class SuccessResult {
 }
 
 class FailureResult {
-  constructor(error) {
+  constructor(reason, error = null) {
     this.success = false;
-    this.title = title;
+    this.reason = reason;
     this.error = error;
   }
 }
