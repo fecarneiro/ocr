@@ -3,7 +3,7 @@ import { createWorker } from 'tesseract.js';
 import fs from 'node:fs/promises';
 import { matchFields } from './src/services/dta-service.js';
 import { PDFParse } from 'pdf-parse';
-import { SuccessResult, FailureResult } from './src/services/result-helpers';
+import path from 'node:path'
 
 async function tryTextExtraction(pdfFile) {
   try {
@@ -38,20 +38,20 @@ async function tryOCRExtraction(file) {
       } = await worker.recognize(image);
       data += text;
     }
-
     //TODO: ver oq acontece se deixar terminate antes deste matchFields
     const result = await matchFields(data);
     await worker.terminate();
-
-    return result;
+    return { success: true, data: result };
   } catch (e) {
-    console.error(e.message);
+    console.error('Error extracting text with OCR', error);
+    return { success: false };
   }
 }
 
 async function main(file) {
   //TODO: IF EXTENSION != PDF....
-  //...
+  if (file.extN)
+  //TODO: if success false... fallback
 }
 
 const file = process.argv[2] || 'pdf/dta.pdf';
