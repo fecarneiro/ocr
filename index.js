@@ -1,8 +1,12 @@
 import { pdf } from 'pdf-to-img';
 import { createWorker } from 'tesseract.js';
 import fs from 'node:fs/promises';
-import { matchFields } from './services/dtaService.js';
+import { matchFields } from './services/dta-service.js';
 import { PDFParse } from 'pdf-parse';
+
+async function tryTextExtraction() {}
+
+async function tryOCRExtraction() {}
 
 async function main(file) {
   //1
