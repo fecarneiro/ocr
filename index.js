@@ -9,16 +9,18 @@ async function main(file) {
   try {
     const buffer = await fs.readFile(file);
     const parser = new PDFParse({ data: buffer });
-    let result = await parser.getText(parser);
+    let extractor = await parser.getText(parser);
 
-    result.pages.forEach((x) => {
-      if (!x.text) {
+    extractor.pages.forEach((page) => {
+      if (!page.text) {
         throw 'The provided file is not a valid TEXT pdf. Switching to OCR extraction instead.';
       }
     });
+
     console.log('Extracting with pdf-parse.');
 
-    result = result.text;
+    const data = extractor.text;
+    const result = await matchFields(data);
     console.log(result);
     return;
   } catch (err) {
