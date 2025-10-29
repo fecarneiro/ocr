@@ -9,16 +9,18 @@ async function main(file) {
   try {
     const buffer = await fs.readFile(file);
     const parser = new PDFParse({ data: buffer });
-    const result = await parser.getText(parser);
-    const emptyText = await result.forEach((x) => {
-      if (!x.name) {
-        throw 'info faltando';
+    let result = await parser.getText(parser);
+
+    result.pages.forEach((x) => {
+      if (!x.text) {
+        throw 'The provided file is not a valid TEXT pdf. Switching to OCR extraction instead';
       } else {
+        console.log(result);
+        return;
       }
     });
   } catch (err) {
-    console.error(err);
-    return;
+    console.error(err.message);
   }
 
   //2
@@ -50,7 +52,6 @@ async function main(file) {
     result.origin = locs[0];
     result.destination = locs[1];
     console.log(result);
-    console.log('2) OCR');
     await worker.terminate();
     return result;
   } catch (e) {
@@ -58,5 +59,5 @@ async function main(file) {
   }
 }
 
-const file = process.argv[2] || 'pdf/test2.pdf';
+const file = process.argv[2] || 'pdf/test-png.pdf';
 main(file);
