@@ -5,7 +5,9 @@ import { matchFields } from './src/services/dta-service.js';
 import { PDFParse } from 'pdf-parse';
 import { SuccessResult, FailureResult } from './src/services/result-helpers';
 
-async function tryTextExtraction() {
+async function tryTextExtraction(pdfFile) {
+  //TODO: IF EXTENSION != PDF....
+  //.....
   try {
     const buffer = await fs.readFile(file);
     const parser = new PDFParse({ data: buffer });
@@ -19,12 +21,9 @@ async function tryTextExtraction() {
 
     const data = extractor.text;
     const result = await matchFields(data);
-    return SuccessResult {
-      success,
-
-    }
-  } catch (err) {
-    console.error(err);
+    return { success: true, data: result };
+  } catch (error) {
+    console.error('Error parsing PDF', error);
   }
 }
 
