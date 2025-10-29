@@ -11,3 +11,5 @@ class FailureResult {
     this.error = error;
   }
 }
+
+export { SuccessResult, FailureResult };

@@ -1,22 +1,19 @@
 import { pdf } from 'pdf-to-img';
 import { createWorker } from 'tesseract.js';
 import fs from 'node:fs/promises';
-import { matchFields } from './services/dta-service.js';
+import { matchFields } from './src/services/dta-service.js';
 import { PDFParse } from 'pdf-parse';
+import { SuccessResult, FailureResult } from './src/services/result-helpers';
 
 async function tryTextExtraction() {
   try {
     const buffer = await fs.readFile(file);
-  } catch (err) {
-    console.error('PDF Read Error: ', err);
-  }
-  const parser = new PDFParse({ data: buffer });
-  const extractor = await parser.getText(parser);
+    const parser = new PDFParse({ data: buffer });
+    const extractor = await parser.getText(parser);
 
-  try {
     extractor.pages.forEach((page) => {
       if (!page.text) {
-        return;
+        return { success: false };
       }
     });
 
