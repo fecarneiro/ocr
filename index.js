@@ -6,8 +6,6 @@ import { PDFParse } from 'pdf-parse';
 import { SuccessResult, FailureResult } from './src/services/result-helpers';
 
 async function tryTextExtraction(pdfFile) {
-  //TODO: IF EXTENSION != PDF....
-  //...
   try {
     const buffer = await fs.readFile(file);
     const parser = new PDFParse({ data: buffer });
@@ -28,12 +26,7 @@ async function tryTextExtraction(pdfFile) {
   }
 }
 
-async function tryOCRExtraction() {}
-
-async function main(file) {
-  //1
-
-  //2
+async function tryOCRExtraction(file) {
   try {
     const document = await pdf(file, { scale: 4 });
     const worker = await createWorker('por');
@@ -46,15 +39,20 @@ async function main(file) {
       data += text;
     }
 
+    //TODO: ver oq acontece se deixar terminate antes deste matchFields
     const result = await matchFields(data);
     await worker.terminate();
 
-    console.log(result);
     return result;
   } catch (e) {
     console.error(e.message);
   }
 }
 
-const file = process.argv[2] || 'pdf/dta-png.pdf';
+async function main(file) {
+  //TODO: IF EXTENSION != PDF....
+  //...
+}
+
+const file = process.argv[2] || 'pdf/dta.pdf';
 main(file);
