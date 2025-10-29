@@ -15,7 +15,6 @@ async function main(file) {
       if (!x.text) {
         throw 'The provided file is not a valid TEXT pdf. Switching to OCR extraction instead';
       } else {
-        console.log(x.text);
         console.log(result);
         return;
       }
