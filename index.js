@@ -19,7 +19,6 @@ async function main(file) {
 
     result = result.text;
     console.log('Extracted with pdf-parse');
-    console.log('Extracted with pdf-parse.');
     console.log(result);
     return;
   } catch (err) {
