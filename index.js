@@ -7,7 +7,7 @@ import { SuccessResult, FailureResult } from './src/services/result-helpers';
 
 async function tryTextExtraction(pdfFile) {
   //TODO: IF EXTENSION != PDF....
-  //.....
+  //...
   try {
     const buffer = await fs.readFile(file);
     const parser = new PDFParse({ data: buffer });
@@ -24,6 +24,7 @@ async function tryTextExtraction(pdfFile) {
     return { success: true, data: result };
   } catch (error) {
     console.error('Error parsing PDF', error);
+    return { success: false };
   }
 }
 
