@@ -49,16 +49,18 @@ async function tryOCRExtraction(file) {
 }
 
 async function main(file) {
-  //TODO: IF EXTENSION != PDF....
-  if (path.extname(file) != 'pdf') {
-    return { success: false, message: 'The file is not a PDF type.' };
-  }
-  await tryTextExtraction(file);
+  //TODO: ja deixar planejado para o multer
   if (path.extname(file) != 'pdf') {
     return { success: false, message: 'The file is not a PDF type.' };
   }
 
-  //TODO: if success false... fallback
+  const pdfParse = await tryTextExtraction(file);
+
+  if (parsePDF.sucess == false) {
+    const OCRExtraction = await tryOCRExtraction(file);
+    // >>>>>>>>>>>>>>>
+    // Continuar
+  }
 }
 
 const file = process.argv[2] || 'pdf/dta.pdf';
