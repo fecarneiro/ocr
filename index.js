@@ -4,19 +4,14 @@ import fs from 'node:fs/promises';
 import { matchFields } from './services/dta-service.js';
 import { PDFParse } from 'pdf-parse';
 
-async function tryTextExtraction() {}
-
-async function tryOCRExtraction() {}
-
-async function main(file) {
-  //1
+async function tryTextExtraction() {
   try {
     const buffer = await fs.readFile(file);
-    const parser = new PDFParse({ data: buffer });
-    const extractor = await parser.getText(parser);
   } catch (err) {
-    console.error(err);
+    console.error('PDF Read Error: ', err);
   }
+  const parser = new PDFParse({ data: buffer });
+  const extractor = await parser.getText(parser);
 
   try {
     extractor.pages.forEach((page) => {
@@ -34,6 +29,13 @@ async function main(file) {
   } catch (err) {
     console.error(err);
   }
+}
+
+async function tryOCRExtraction() {}
+
+async function main(file) {
+  //1
+
   //2
   try {
     const document = await pdf(file, { scale: 4 });
