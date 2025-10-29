@@ -13,14 +13,16 @@ async function main(file) {
 
     result.pages.forEach((x) => {
       if (!x.text) {
-        throw 'The provided file is not a valid TEXT pdf. Switching to OCR extraction instead';
-      } else {
-        console.log(result);
-        return;
+        throw 'The provided file is not a valid TEXT pdf. Switching to OCR extraction instead.';
       }
     });
+
+    result = result.text;
+    console.log('Extracted with pdf-parse.');
+    console.log(result);
+    return;
   } catch (err) {
-    console.error(err.message);
+    console.error(err);
   }
 
   //2
@@ -43,14 +45,14 @@ async function main(file) {
       result[key] = match;
     }
 
-    const locs = [];
-    const locations = extractedText.matchAll(dtaLocationRegex);
-    for (const location of locations) {
-      locs.push(location[1]);
+    const locations = [];
+    const location = extractedText.matchAll(dtaLocationRegex);
+    for (const x of location) {
+      locations.push(x[1]);
     }
 
-    result.origin = locs[0];
-    result.destination = locs[1];
+    result.origin = locations[0];
+    result.destination = locations[1];
     console.log(result);
     await worker.terminate();
     return result;
@@ -59,5 +61,5 @@ async function main(file) {
   }
 }
 
-const file = process.argv[2] || 'pdf/test-png.pdf';
+const file = process.argv[2] || 'pdf/dta.pdf';
 main(file);
