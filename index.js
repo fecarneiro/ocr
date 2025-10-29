@@ -16,9 +16,9 @@ async function main(file) {
         throw 'The provided file is not a valid TEXT pdf. Switching to OCR extraction instead.';
       }
     });
+    console.log('Extracting with pdf-parse.');
 
     result = result.text;
-    console.log('Extracted with pdf-parse');
     console.log(result);
     return;
   } catch (err) {
