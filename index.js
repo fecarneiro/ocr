@@ -1,7 +1,7 @@
 import { pdf } from 'pdf-to-img';
 import { createWorker } from 'tesseract.js';
 import fs from 'node:fs/promises';
-import { matchFields } from './regex/dtaRegex.js';
+import { matchFields } from './services/dtaService.js';
 import { PDFParse } from 'pdf-parse';
 
 async function main(file) {
@@ -50,5 +50,5 @@ async function main(file) {
   }
 }
 
-const file = process.argv[2] || 'pdf/dta.pdf';
+const file = process.argv[2] || 'pdf/dta-png.pdf';
 main(file);
