@@ -7,20 +7,23 @@ const dtaGeralRegex = {
 
 const dtaLocationRegex = /Unidade\s+Local\s*:\s*([^\n]+)/g;
 
-export { dtaGeralRegex, dtaLocationRegex };
+async function matchFields(data) {
+  let result = {};
+  for await (const [key, value] of Object.entries(dtaGeralRegex)) {
+    const fullMatch = data.match(value);
+    const match = fullMatch ? fullMatch[1] : null;
+    result[key] = match;
+  }
 
-let result = {};
-for await (const [key, value] of Object.entries(dtaGeralRegex)) {
-  const fullMatch = extractedText.match(value);
-  const match = fullMatch ? fullMatch[1] : null;
-  result[key] = match;
+  const locations = [];
+  const location = data.matchAll(dtaLocationRegex);
+  for (const x of location) {
+    locations.push(x[1]);
+  }
+
+  result.origin = locations[0];
+  result.destination = locations[1];
+
+  return result;
 }
-
-const locations = [];
-const location = extractedText.matchAll(dtaLocationRegex);
-for (const x of location) {
-  locations.push(x[1]);
-}
-
-result.origin = locations[0];
-result.destination = locations[1];
+export { matchFields };
