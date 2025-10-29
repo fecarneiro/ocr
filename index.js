@@ -5,19 +5,23 @@ import { dtaGeralRegex, dtaLocationRegex } from './regex/dtaRegex.js';
 import { PDFParse } from 'pdf-parse';
 
 async function main(file) {
+  //1
   try {
     const buffer = await fs.readFile(file);
     const parser = new PDFParse({ data: buffer });
     const result = await parser.getText(parser);
-    const found = result.pages.find((element))
-      return;
-    }
-  } catch (e) {
-    if (e.message != 'Invalid PDF structure.') {
-      console.log(e);
-    } else {
-    }
+    const emptyText = await result.forEach((x) => {
+      if (!x.name) {
+        throw 'info faltando';
+      } else {
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    return;
   }
+
+  //2
   try {
     const document = await pdf(file, { scale: 4 });
     const worker = await createWorker('por');
@@ -54,5 +58,5 @@ async function main(file) {
   }
 }
 
-const file = process.argv[2] || 'test2.pdf';
+const file = process.argv[2] || 'pdf/test2.pdf';
 main(file);

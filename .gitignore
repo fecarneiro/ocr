@@ -4,6 +4,7 @@ node_modules
 *.jpg
 *.jpeg
 *.png
+pdf/
 temp*
 dev*
 .vscode

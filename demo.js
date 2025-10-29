@@ -48,5 +48,5 @@ async function main(pdfPath) {
   return result;
 }
 
-const pdfPath = process.argv[2] || 'dta.pdf';
+const pdfPath = process.argv[2] || 'pdf/dta.pdf';
 main(pdfPath);
