@@ -3,7 +3,7 @@ import { createWorker } from 'tesseract.js';
 import fs from 'node:fs/promises';
 import { matchFields } from './src/services/dta-service.js';
 import { PDFParse } from 'pdf-parse';
-import path from 'node:path'
+import path from 'node:path';
 
 async function tryTextExtraction(pdfFile) {
   try {
@@ -50,7 +50,14 @@ async function tryOCRExtraction(file) {
 
 async function main(file) {
   //TODO: IF EXTENSION != PDF....
-  if (file.extN)
+  if (path.extname(file) != 'pdf') {
+    return { success: false, message: 'The file is not a PDF type.' };
+  }
+  await tryTextExtraction(file);
+  if (path.extname(file) != 'pdf') {
+    return { success: false, message: 'The file is not a PDF type.' };
+  }
+
   //TODO: if success false... fallback
 }
 
