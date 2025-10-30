@@ -10,19 +10,25 @@ async function tryTextExtraction(pdfFile) {
     const buffer = await fs.readFile(pdfFile);
     const parser = new PDFParse({ data: buffer });
     const extractor = await parser.getText(parser);
+    const extractedPages = extractor.pages;
 
-    extractor.pages.forEach((page) => {
+    for (let page of extractedPages) {
       if (!page.text) {
         return { success: false };
       }
-    });
+    }
 
     const data = extractor.text;
     const result = await matchFields(data);
-    return { success: true, data: result };
+    return {
+      success: true,
+      data: result,
+    };
   } catch (error) {
     console.error('Error parsing PDF', error);
-    return { success: false };
+    return {
+      success: false,
+    };
   }
 }
 
@@ -41,10 +47,15 @@ async function tryOCRExtraction(pdfFile) {
 
     const result = await matchFields(data);
     await worker.terminate();
-    return { success: true, data: result };
+    return {
+      success: true,
+      data: result,
+    };
   } catch (error) {
     console.error('Error extracting text with OCR', error);
-    return { success: false };
+    return {
+      success: false,
+    };
   }
 }
 
@@ -60,22 +71,28 @@ async function main(pdfFile) {
   const pdfParse = await tryTextExtraction(pdfFile);
 
   if (pdfParse.success) {
-    return {
+    return console.log({
       success: true,
       data: pdfParse.data,
       message: 'Text extracted using PDF Parse',
-    };
+    });
   }
 
   const pdfOCR = await tryOCRExtraction(pdfFile);
 
   if (pdfOCR.success) {
-    return {
+    return console.log({
       success: true,
       data: pdfOCR.data,
       message: 'Text extracted using PDF OCR',
-    };
+    });
   }
+
+  return console.log({
+    success: false,
+    data: null,
+    message: 'Failed extracting data with both options: PDF Parse and OCR',
+  });
 }
 
 const pdfFile = process.argv[2] || 'pdf/dta.pdf';
