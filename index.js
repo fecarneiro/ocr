@@ -4,6 +4,7 @@ import fs from 'node:fs/promises';
 import { matchFields } from './src/services/dta-service.js';
 import { PDFParse } from 'pdf-parse';
 import path from 'node:path';
+import { sharpPNG } from './src/services/sharp-png.js';
 
 async function tryTextExtraction(pdfFile) {
   try {
@@ -36,6 +37,10 @@ async function tryOCRExtraction(pdfFile) {
   try {
     const document = await pdf(pdfFile, { scale: 2 });
 
+    console.log(Buffer.isBuffer(document));
+
+    // TODO: problema no buffer
+    // const { ocrReadyImage } = await sharpPNG(document);
     const worker = await createWorker('por');
     let data = '';
 
