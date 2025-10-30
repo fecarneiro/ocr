@@ -7,7 +7,7 @@ import path from 'node:path';
 
 async function tryTextExtraction(pdfFile) {
   try {
-    const buffer = await fs.readFile(file);
+    const buffer = await fs.readFile(pdfFile);
     const parser = new PDFParse({ data: buffer });
     const extractor = await parser.getText(parser);
 
@@ -26,9 +26,9 @@ async function tryTextExtraction(pdfFile) {
   }
 }
 
-async function tryOCRExtraction(file) {
+async function tryOCRExtraction(pdfFile) {
   try {
-    const document = await pdf(file, { scale: 4 });
+    const document = await pdf(pdfFile, { scale: 4 });
     const worker = await createWorker('por');
     let data = '';
 
@@ -38,32 +38,45 @@ async function tryOCRExtraction(file) {
       } = await worker.recognize(image);
       data += text;
     }
-    //TODO: ver oq acontece se deixar terminate antes deste matchFields
+
     const result = await matchFields(data);
     await worker.terminate();
     return { success: true, data: result };
-  } catch (e) {
+  } catch (error) {
     console.error('Error extracting text with OCR', error);
     return { success: false };
   }
 }
 
-async function main(file) {
-  //TODO: ja deixar planejado para o multer
-  if (path.extname(file) != '.pdf') {
-    return { success: false, message: 'The file is not a PDF type.' };
+async function main(pdfFile) {
+  if (path.extname(pdfFile) != '.pdf') {
+    return {
+      success: false,
+      data: null,
+      message: 'The provided file is not a PDF type.',
+    };
   }
 
-  const pdfParse = await tryTextExtraction(file);
+  const pdfParse = await tryTextExtraction(pdfFile);
 
-  if (pdfParse.success == false) {
-    const OCRExtraction = await tryOCRExtraction(file);
-    // >>>>>>>>>>>>>>>
-    // Continuar
-  } else {
-    return { success: true, message: 'PDF parsed with success.' };
+  if (pdfParse.success) {
+    return {
+      success: true,
+      data: pdfParse.data,
+      message: 'Text extracted using PDF Parse',
+    };
+  }
+
+  const pdfOCR = await tryOCRExtraction(pdfFile);
+
+  if (pdfOCR.success) {
+    return {
+      success: true,
+      data: pdfOCR.data,
+      message: 'Text extracted using PDF OCR',
+    };
   }
 }
 
-const file = process.argv[2] || 'pdf/dta.pdf';
-main(file);
+const pdfFile = process.argv[2] || 'pdf/dta.pdf';
+main(pdfFile);

@@ -17,8 +17,8 @@ async function matchFields(data) {
 
   const locations = [];
   const location = data.matchAll(dtaLocationRegex);
-  for (const x of location) {
-    locations.push(x[1]);
+  for (const loc of location) {
+    locations.push(loc[1]);
   }
 
   result.origin = locations[0];
