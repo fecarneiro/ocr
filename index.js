@@ -36,23 +36,23 @@ async function tryTextExtraction(pdfFile) {
 async function tryOCRExtraction(pdfFile) {
   try {
     const document = await pdf(pdfFile, { scale: 2 });
-
-    console.log(Buffer.isBuffer(document));
-
-    // TODO: problema no buffer
-    // const { ocrReadyImage } = await sharpPNG(document);
     const worker = await createWorker('por');
     let data = '';
-
+    //TODO:
+    //Otimizar mais com sharp
+    //ou partir para melhoria no regex
     for await (const image of document) {
+      const ocrReadyImage = await sharpPNG(image);
+      //debug
+      await fs.writeFile('image.png', ocrReadyImage);
       const {
         data: { text },
-      } = await worker.recognize(image);
+      } = await worker.recognize(ocrReadyImage);
       data += text;
     }
 
     //debug
-    const writeData = await fs.writeFile('text.txt', data);
+    await fs.writeFile('text.txt', data);
 
     const result = await matchFields(data);
     await worker.terminate();
