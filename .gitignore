@@ -8,7 +8,9 @@ pdf/
 temp*
 dev.js
 .vscode
-png/
+pic/
+doc/
+.json
 
 por.traineddata
 eng.traineddata
