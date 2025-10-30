@@ -44,8 +44,9 @@ async function tryOCRExtraction(pdfFile) {
       } = await worker.recognize(image);
       data += text;
     }
+
     //debug
-    await fs.writeFile('text.txt', data);
+    const writeData = await fs.writeFile('text.txt', data);
 
     const result = await matchFields(data);
     await worker.terminate();
@@ -97,5 +98,5 @@ async function main(pdfFile) {
   });
 }
 
-const pdfFile = process.argv[2] || 'pdf/dta-png3.pdf';
+const pdfFile = process.argv[2] || 'pdf/dta3-png.pdf';
 main(pdfFile);
