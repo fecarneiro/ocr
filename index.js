@@ -50,16 +50,18 @@ async function tryOCRExtraction(file) {
 
 async function main(file) {
   //TODO: ja deixar planejado para o multer
-  if (path.extname(file) != 'pdf') {
+  if (path.extname(file) != '.pdf') {
     return { success: false, message: 'The file is not a PDF type.' };
   }
 
   const pdfParse = await tryTextExtraction(file);
 
-  if (parsePDF.sucess == false) {
+  if (pdfParse.success == false) {
     const OCRExtraction = await tryOCRExtraction(file);
     // >>>>>>>>>>>>>>>
     // Continuar
+  } else {
+    return { success: true, message: 'PDF parsed with success.' };
   }
 }
 
