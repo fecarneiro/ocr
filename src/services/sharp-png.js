@@ -4,7 +4,7 @@ async function sharpPNG(pngFile) {
   const ocrReadyImage = await sharp(pngFile)
     .greyscale()
     .sharpen()
-    .withMetadata({ density: 600 })
+    .withMetadata({ density: 300 })
     .toBuffer();
 
   return ocrReadyImage;
