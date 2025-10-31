@@ -12,3 +12,4 @@ pic/
 doc/
 .json
 data*
+coverage/

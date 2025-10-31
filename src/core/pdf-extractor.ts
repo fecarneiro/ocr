@@ -37,4 +37,4 @@ async function tryTextExtraction(
   }
 }
 
-export { tryTextExtraction };
+export { tryTextExtraction, extractText };
