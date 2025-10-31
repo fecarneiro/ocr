@@ -5,7 +5,6 @@ async function sharpPNG(pngFile) {
     .greyscale()
     .normalise()
     .sharpen()
-    .withMetadata({ density: 300 })
     .toBuffer();
   return ocrReadyImage;
 }
