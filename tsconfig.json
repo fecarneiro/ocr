@@ -5,7 +5,9 @@
     "noImplicitAny": false,
     "strict": false,
     "outDir": "./dist"
-  }
+  },
+  "include": ["src/**/*", "index.ts"],
+  "exclude": ["node_modules", "dist", "**/*.test.js"]
 }
 
 // @ts-ignore  // ignora próxima linha
