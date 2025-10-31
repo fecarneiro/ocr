@@ -7,7 +7,7 @@ const dtaGeralRegex = {
 
 const dtaLocationRegex = /Unidade\s+Local\s*:\s*([^\n]+)/g;
 
-async function matchFields(data: any) {
+async function matchFields(data) {
   let result = {};
   for (const [key, value] of Object.entries(dtaGeralRegex)) {
     const fullMatch = data.match(value);

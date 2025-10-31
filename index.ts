@@ -10,7 +10,7 @@ async function tryTextExtraction(pdfFile: any) {
   try {
     const buffer = await fs.readFile(pdfFile);
     const parser = new PDFParse({ data: buffer });
-    const extractor = await parser.getText(parser);
+    const extractor = await parser.getText();
     const extractedPages = extractor.pages;
 
     for (let page of extractedPages) {
