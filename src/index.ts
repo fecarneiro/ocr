@@ -38,5 +38,5 @@ async function main(pdfFile: string | Buffer) {
   });
 }
 
-const pdfFile = 'data/input/dta1-png.pdf';
+const pdfFile = 'data/input/dta1.pdf';
 main(pdfFile);
