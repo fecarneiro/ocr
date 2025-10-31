@@ -1,6 +1,6 @@
 import sharp from 'sharp';
 
-async function sharpPNG(pngFile) {
+async function sharpPNG(pngFile: any) {
   const ocrReadyImage = await sharp(pngFile)
     .greyscale()
     .normalise()

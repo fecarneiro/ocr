@@ -4,9 +4,9 @@ import fs from 'node:fs/promises';
 import { matchFields } from './src/services/dta-service.js';
 import { PDFParse } from 'pdf-parse';
 import path from 'node:path';
-import { sharpPNG } from './src/services/sharp-png.js';
+import { sharpPNG } from './src/services/sharp-service.js';
 
-async function tryTextExtraction(pdfFile) {
+async function tryTextExtraction(pdfFile: any) {
   try {
     const buffer = await fs.readFile(pdfFile);
     const parser = new PDFParse({ data: buffer });
