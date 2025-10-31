@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "module": "esnext",
+    "module": "nodenext",
     "target": "ES6"
   },
-  "include": ["src/**/*", "*.js", "index.js", "dev/demo.js"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
