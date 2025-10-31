@@ -1,7 +1,7 @@
 import type { Config } from 'jest';
 
 const config: Config = {
-  preset: 'ts-jest',
+  preset: 'ts-jest/presets/default-esm',
   testEnvironment: 'node',
   clearMocks: true,
   collectCoverage: true,
@@ -11,24 +11,25 @@ const config: Config = {
   moduleFileExtensions: ['ts', 'js', 'json'],
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
 
-  // Transformação de arquivos TypeScript
   transform: {
     '^.+\\.ts$': [
       'ts-jest',
       {
+        useESM: true,
         tsconfig: {
-          // Permite importações ES modules
           esModuleInterop: true,
+          moduleResolution: 'Node',
         },
       },
     ],
   },
 
-  // Suporte a ES Modules
   extensionsToTreatAsEsm: ['.ts'],
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
   },
+
+  transformIgnorePatterns: ['node_modules/(?!(pdf-to-img|pdf-parse)/)'],
 };
 
 export default config;

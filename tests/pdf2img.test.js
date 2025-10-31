@@ -1,4 +1,5 @@
 import { pdf } from 'pdf-to-img';
+
 it('generates a PDF', async () => {
   for await (const page of await pdf('example.pdf')) {
     expect(page).toMatchImageSnapshot();
