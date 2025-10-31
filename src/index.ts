@@ -1,37 +1,10 @@
 import { pdf } from 'pdf-to-img';
 import { createWorker } from 'tesseract.js';
 import fs from 'node:fs/promises';
-import { matchFields } from './src/services/dta-service.js';
-import { PDFParse } from 'pdf-parse';
+import { matchFields } from './services/dta-service.js';
+
 import path from 'node:path';
-import { sharpPNG } from './src/services/sharp-service.js';
-
-async function tryTextExtraction(pdfFile: any) {
-  try {
-    const buffer = await fs.readFile(pdfFile);
-    const parser = new PDFParse({ data: buffer });
-    const extractor = await parser.getText();
-    const extractedPages = extractor.pages;
-
-    for (let page of extractedPages) {
-      if (!page.text) {
-        return { success: false };
-      }
-    }
-
-    const data = extractor.text;
-    const result = await matchFields(data);
-    return {
-      success: true,
-      data: result,
-    };
-  } catch (error) {
-    console.error('Error parsing PDF', error);
-    return {
-      success: false,
-    };
-  }
-}
+import { sharpPNG } from './services/sharp-service.js';
 
 async function tryOCRExtraction(pdfFile) {
   try {
@@ -44,7 +17,7 @@ async function tryOCRExtraction(pdfFile) {
 
     for await (const image of document) {
       const ocrReadyImage = await sharpPNG(image);
-      //debug
+
       await fs.writeFile('image.png', ocrReadyImage);
       const {
         data: { text },
@@ -52,7 +25,6 @@ async function tryOCRExtraction(pdfFile) {
       data += text;
     }
 
-    //debug
     await fs.writeFile('text.txt', data);
 
     const result = await matchFields(data);

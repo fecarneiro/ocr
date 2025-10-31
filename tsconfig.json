@@ -1,14 +1,12 @@
 {
   "extends": "@tsconfig/node22/tsconfig.json",
   "compilerOptions": {
-    "allowJs": true,
-    "noImplicitAny": false,
+    "outDir": "./dist",
+    "rootDir": "./src",
     "strict": false,
-    "outDir": "./dist"
+    "allowJs": true,
+    "noEmit": true
   },
-  "include": ["src/**/*", "index.ts"],
-  "exclude": ["node_modules", "dist", "**/*.test.js"]
+  "include": ["src/**/*"],
+  "exclude": ["dist"]
 }
-
-// @ts-ignore  // ignora próxima linha
-// @ts-nocheck  // ignora arquivo inteiro (no topo)
