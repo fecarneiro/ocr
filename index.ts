@@ -36,11 +36,12 @@ async function tryTextExtraction(pdfFile: any) {
 async function tryOCRExtraction(pdfFile) {
   try {
     const document = await pdf(pdfFile, { scale: 2 });
-    const worker = await createWorker('por');
+    const worker = await createWorker('por', 1, {
+      cachePath: './tessdata',
+      cacheMethod: 'write',
+    });
     let data = '';
-    //TODO:
-    //Otimizar mais com sharp
-    //ou partir para melhoria no regex
+
     for await (const image of document) {
       const ocrReadyImage = await sharpPNG(image);
       //debug
