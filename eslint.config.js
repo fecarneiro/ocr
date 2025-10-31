@@ -1,24 +1,28 @@
-// @ts-check
-
 import eslint from '@eslint/js';
-import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 
-export default defineConfig([
+export default [
+  eslint.configs.recommended,
+  ...tseslint.configs.recommended,
   {
-    overrides: [
-      {
-        files: ['tests/**/*'],
-        plugins: ['jest'],
-        env: {
-          'jest/globals': true,
-        },
+    files: ['**/*.ts'],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        project: './tsconfig.json',
+        ecmaVersion: 'latest',
+        sourceType: 'module',
       },
-      eslint.configs.recommended,
-      tseslint.configs.recommended,
-    ],
+    },
+    plugins: {
+      '@typescript-eslint': tseslint.plugin,
+    },
   },
-]);
-
-import { defineConfig } from 'eslint/config';
-import globals from 'globals';
+  {
+    // Regras específicas para testes
+    files: ['**/*.test.ts', '**/*.spec.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
+];

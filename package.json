@@ -4,9 +4,13 @@
   "description": "",
   "main": "ocr.js",
   "scripts": {
-    "test": "jest",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
+    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
     "typecheck": "tsc",
-    "typecheck:watch": "tsc --watch"
+    "typecheck:watch": "tsc --watch",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "keywords": [],
   "author": "",
@@ -25,7 +29,6 @@
     "@types/node": "^24.9.2",
     "@types/pdf-parse": "^1.1.5",
     "eslint": "^9.38.0",
-    "eslint-plugin-jest": "^29.0.1",
     "globals": "^16.4.0",
     "jest": "^30.2.0",
     "prettier": "^3.6.2",
