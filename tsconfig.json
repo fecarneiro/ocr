@@ -12,6 +12,6 @@
     "moduleResolution": "Node",
     "skipLibCheck": true
   },
-  "include": ["src/**/*", "tests/**/*"],
+  "include": ["src/**/*", "tests/**/*", "dev.ts", "dev.js"],
   "exclude": ["./coverage", "./dist", "node_modules"]
 }
