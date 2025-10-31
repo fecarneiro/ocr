@@ -9,7 +9,7 @@ const dtaGeralRegex = {
 const dtaLocationRegex = /Unidade\s+Local\s*:\s*([^\n]+)/g;
 
 async function matchFields(data) {
-  const result: Partial<DtaResult> = {};
+  const result = {};
   for (const [key, value] of Object.entries(dtaGeralRegex)) {
     const fullMatch = data.match(value);
     const match = fullMatch ? fullMatch[1] : null;

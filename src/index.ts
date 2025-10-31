@@ -2,8 +2,8 @@ import { tryTextExtraction } from './core/pdf-extractor.js';
 import { tryOCRExtraction } from './core/ocr-processor.js';
 import path from 'node:path';
 
-async function main(pdfFile) {
-  if (path.extname(pdfFile) != '.pdf') {
+async function main(pdfFile: string | Buffer) {
+  if (typeof pdfFile === 'string' && path.extname(pdfFile) != '.pdf') {
     return {
       success: false,
       data: null,
@@ -38,5 +38,5 @@ async function main(pdfFile) {
   });
 }
 
-const pdfFile = process.argv[2] || 'data/input/dta1-png.pdf';
+const pdfFile = 'data/input/dta1-png.pdf';
 main(pdfFile);

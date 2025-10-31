@@ -18,8 +18,8 @@ async function tryTextExtraction(
       }
     }
 
-    const data = extractor.text;
-    const result = await matchFields(data);
+    const extractedText: string = extractor.text;
+    const result = await matchFields(extractedText);
     return {
       success: true,
       data: result,

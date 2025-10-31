@@ -11,7 +11,7 @@ async function tryOCRExtraction(pdfFile) {
       cachePath: './tessdata',
       cacheMethod: 'write',
     });
-    let data = '';
+    let data: string = '';
 
     for await (const image of document) {
       const ocrReadyImage = await sharpPNG(image);
