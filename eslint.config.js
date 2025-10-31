@@ -4,10 +4,21 @@ import eslint from '@eslint/js';
 import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 
-export default defineConfig(
-  eslint.configs.recommended,
-  tseslint.configs.recommended
-);
+export default defineConfig([
+  {
+    overrides: [
+      {
+        files: ['tests/**/*'],
+        plugins: ['jest'],
+        env: {
+          'jest/globals': true,
+        },
+      },
+      eslint.configs.recommended,
+      tseslint.configs.recommended,
+    ],
+  },
+]);
 
-// testar outras configs depois
-// https://typescript-eslint.io/getting-started
+import { defineConfig } from 'eslint/config';
+import globals from 'globals';

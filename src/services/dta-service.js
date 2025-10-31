@@ -4,7 +4,6 @@ const dtaGeralRegex = {
   valorCarga: /Valor\s+da\s+Carga\s+em\s+Moeda\s+Nacional\s*:\s*([^\n]+)/,
   descricaoCarga: /Descrição\s+da\s+Carga\s+na\s+Fatura\s*:\s*([^\n]+)/,
 };
-
 const dtaLocationRegex = /Unidade\s+Local\s*:\s*([^\n]+)/g;
 
 async function matchFields(data) {

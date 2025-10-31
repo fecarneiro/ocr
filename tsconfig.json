@@ -8,5 +8,13 @@
     "noEmit": true
   },
   "include": ["src/**/*"],
-  "exclude": ["dist"]
+  "exclude": [
+    "./coverage",
+    "./dist",
+    "__test__",
+    "**/*.test.ts",
+    "jest.config.js",
+    "eslint.config.js",
+    "node_modules"
+  ]
 }
