@@ -3,7 +3,8 @@ import sharp from 'sharp';
 async function sharpPNG(pngFile) {
   const ocrReadyImage = await sharp(pngFile)
     .greyscale()
-    .withMetadata({ density: 300 })
+    .sharpen()
+    .withMetadata({ density: 600 })
     .toBuffer();
 
   return ocrReadyImage;
