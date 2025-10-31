@@ -1,3 +1,5 @@
+import { DtaResult } from '../types';
+
 const dtaGeralRegex = {
   cnpjEmbarcador: /CNPJ\/CPF\s+do\s+Beneficiário\s*:\s*([^\n]+)/,
   nomeBeneficiario: /Nome\s+do\s+Beneficiário\s*:\s*([^\n]+)/,
@@ -7,7 +9,7 @@ const dtaGeralRegex = {
 const dtaLocationRegex = /Unidade\s+Local\s*:\s*([^\n]+)/g;
 
 async function matchFields(data) {
-  const result = {};
+  const result: Partial<DtaResult> = {};
   for (const [key, value] of Object.entries(dtaGeralRegex)) {
     const fullMatch = data.match(value);
     const match = fullMatch ? fullMatch[1] : null;

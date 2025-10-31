@@ -1,10 +1,10 @@
 interface DtaResult {
-  cnpjEmbarcador: string;
-  nomeBeneficiario: string;
-  valorCarga: string;
-  descricaoCarga: string;
-  origin: string;
-  destination: string;
+  cnpjEmbarcador: string | null;
+  nomeBeneficiario: string | null;
+  valorCarga: string | null;
+  descricaoCarga: string | null;
+  origin: string | null;
+  destination: string | null;
 }
 
 export { DtaResult };
