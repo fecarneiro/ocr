@@ -16,14 +16,14 @@ async function tryOCRExtraction(pdfFile) {
     for await (const image of document) {
       const ocrReadyImage = await sharpPNG(image);
 
-      await fs.writeFile('/data/output/image.png', ocrReadyImage);
+      await fs.writeFile('./data/output/image.png', ocrReadyImage);
       const {
         data: { text },
       } = await worker.recognize(ocrReadyImage);
       data += text;
     }
 
-    await fs.writeFile('/data/outputtext.txt', data);
+    await fs.writeFile('./data/outputtext.txt', data);
 
     const result = await matchFields(data);
     await worker.terminate();

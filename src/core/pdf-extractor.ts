@@ -1,8 +1,11 @@
 import { PDFParse } from 'pdf-parse';
 import { matchFields } from '../services/dta-service.js';
 import fs from 'node:fs/promises';
+import { DtaResult } from '../types/index.js';
 
-async function tryTextExtraction(pdfFile) {
+async function tryTextExtraction(
+  pdfFile: string | Buffer
+): Promise<{ success: boolean; data?: DtaResult }> {
   try {
     const buffer = await fs.readFile(pdfFile);
     const parser = new PDFParse({ data: buffer });
