@@ -104,5 +104,5 @@ async function main(pdfFile) {
   });
 }
 
-const pdfFile = process.argv[2] || 'pdf/dta3-png.pdf';
+const pdfFile = process.argv[2] || 'pdf/dta1-png.pdf';
 main(pdfFile);
