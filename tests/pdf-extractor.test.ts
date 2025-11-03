@@ -1,24 +1,18 @@
-import fs from 'node:fs/promises';
-import PDFParse from 'pdf-parse';
-import { extractText, isValidDtaResult } from '../src/core/pdf-extractor';
+import { isValidDtaResult, tryTextExtraction } from '../src/core/pdf-extractor';
 import { DtaResult } from '../src/types';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 
-jest.mock('pdf-parse');
-jest.mock('node:fs/promises');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const inputDir = path.resolve(__dirname, 'fixtures');
 
-describe('extractText', () => {
-  test('extracts text from pdf file', async () => {
-    const fakeBuffer = Buffer.from('PDF content');
-    const fakePDFText = { text: 'Extracted text from PDF' };
+describe('tryTextExtraction', () => {
+  test('returns true for pdf-parse extraction', async () => {
+    const pdfFile = path.join(inputDir, 'dta1-png.pdf');
+    const result = await tryTextExtraction(pdfFile);
 
-    (fs.readFile as jest.Mock).mockResolvedValue(fakeBuffer);
-    (PDFParse as unknown as jest.Mock).mockResolvedValue(fakePDFText);
-
-    const result = await extractText('fake-file.pdf');
-
-    expect(fs.readFile).toHaveBeenCalledWith('fake-file.pdf');
-    expect(PDFParse).toHaveBeenCalledWith({ data: fakeBuffer });
-    expect(result).toBe('Extracted text from PDF');
+    expect(result).toBeTruthy(); //CONTINUE
   });
 });
 

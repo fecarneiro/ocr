@@ -17,7 +17,7 @@ const config: Config = {
       {
         useESM: true,
         tsconfig: {
-          module: 'ES2022',
+          module: 'esnext',
           esModuleInterop: true,
           moduleResolution: 'Node',
         },
