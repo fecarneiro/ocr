@@ -5,14 +5,15 @@ import { DtaResult } from '../src/types';
 
 jest.mock('fs/promises');
 jest.mock('pdf-parser');
-const file = 'tests/fixtures/valid-data.pdf';
 
 (describe('extractText'),
   () => {
-    const mockPDFParse = PDFParse as jest.MockedClass<typeof PDFParse>;
-    const mockReadFile = fs.readFile as jest.MockedFunction<typeof fs.readFile>;
     test('extracts text from pdf file', async () => {
-
+      const fakeBuffer = Buffer.from('PDF content');
+      const fakePDFText = { text: 'Extracted text from PDF' };
+      (fs.readFile as jest.Mock).mockResolvedValue(fakeBuffer);
+      (PDFParse as jest.Mock).mockResolvedValue(mockPDFText);
+    });
   });
 
 describe('isValidDtaResult', () => {
