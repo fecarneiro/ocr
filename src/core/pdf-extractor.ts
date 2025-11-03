@@ -8,7 +8,6 @@ async function extractText(pdfFile: string | Buffer): Promise<string> {
   const parser = new PDFParse({ data: buffer });
   return (await parser.getText()).text;
 }
-console.log();
 
 function hasMinimumRequiredFields(dtaResult: DtaResult): boolean {
   const MINIMUM_FIELDS = 3;
