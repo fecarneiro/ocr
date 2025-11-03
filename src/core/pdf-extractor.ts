@@ -10,9 +10,10 @@ async function extractText(pdfFile: string | Buffer) {
   return text;
 }
 
-function truthyValues(text: object) {
+function hasMinimumRequiredFields(text: DtaResult) {
+  const MININUM_FIELDS = 3;
   const filledValues = Object.values(text).filter((value) => value != null);
-  return filledValues;
+  return filledValues.length >= MININUM_FIELDS;
 }
 
 async function tryTextExtraction(
@@ -22,8 +23,8 @@ async function tryTextExtraction(
     const extractor = await extractText(pdfFile);
     const extractedText = extractor.text;
     const result = await matchFields(extractedText);
-    const filledValues = truthyValues(result);
-    if (filledValues.length === 0) {
+
+    if (!hasMinimumRequiredFields) {
       return { success: false };
     }
 
