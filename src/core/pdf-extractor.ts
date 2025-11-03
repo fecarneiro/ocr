@@ -8,7 +8,6 @@ async function extractText(pdfFile: string | Buffer) {
   const parser = new PDFParse({ data: buffer });
   const text = await parser.getText();
   return text;
-  console.log(123);
 }
 
 async function tryTextExtraction(
