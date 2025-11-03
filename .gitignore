@@ -13,3 +13,4 @@ doc/
 .json
 data*
 coverage/
+fixtures/

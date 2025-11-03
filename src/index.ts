@@ -1,6 +1,11 @@
 import { tryTextExtraction } from './core/pdf-extractor.js';
 import { tryOCRExtraction } from './core/ocr-processor.js';
+import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const inputDir = path.resolve(__dirname, '..', 'data', 'input');
 
 async function main(pdfFile: string | Buffer) {
   if (typeof pdfFile === 'string' && path.extname(pdfFile) != '.pdf') {
@@ -38,5 +43,5 @@ async function main(pdfFile: string | Buffer) {
   });
 }
 
-const pdfFile = 'data/input/dta1.pdf';
+const pdfFile = path.join(inputDir, 'dta1.pdf');
 main(pdfFile);
