@@ -40,4 +40,4 @@ async function tryTextExtraction(
   }
 }
 
-export { tryTextExtraction, extractText };
+export { extractText, hasMinimumRequiredFields, tryTextExtraction };
