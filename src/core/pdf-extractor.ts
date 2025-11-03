@@ -15,14 +15,16 @@ async function tryTextExtraction(
 ): Promise<{ success: boolean; data?: DtaResult }> {
   try {
     const extractor = await extractText(pdfFile);
+    const extractedPages = extractor.pages;
+
+    for (const page of extractedPages) {
+      if (!page.text) {
+        return { success: false };
+      }
+    }
 
     const extractedText: string = extractor.text;
     const result = await matchFields(extractedText);
-
-    const truthyValues = Object.values(result).filter((value) => value != null);
-    if (truthyValues.length < 1) {
-      return { success: false };
-    }
 
     return {
       success: true,
