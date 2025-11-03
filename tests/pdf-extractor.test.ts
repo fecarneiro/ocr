@@ -1,20 +1,26 @@
 import fs from 'node:fs/promises';
-import { PDFParse } from 'pdf-parse';
+import PDFParse from 'pdf-parse';
 import { extractText, isValidDtaResult } from '../src/core/pdf-extractor';
 import { DtaResult } from '../src/types';
 
-jest.mock('fs/promises');
-jest.mock('pdf-parser');
+jest.mock('pdf-parse');
+jest.mock('node:fs/promises');
 
-(describe('extractText'),
-  () => {
-    test('extracts text from pdf file', async () => {
-      const fakeBuffer = Buffer.from('PDF content');
-      const fakePDFText = { text: 'Extracted text from PDF' };
-      (fs.readFile as jest.Mock).mockResolvedValue(fakeBuffer);
-      (PDFParse as jest.Mock).mockResolvedValue(mockPDFText);
-    });
+describe('extractText', () => {
+  test('extracts text from pdf file', async () => {
+    const fakeBuffer = Buffer.from('PDF content');
+    const fakePDFText = { text: 'Extracted text from PDF' };
+
+    (fs.readFile as jest.Mock).mockResolvedValue(fakeBuffer);
+    (PDFParse as unknown as jest.Mock).mockResolvedValue(fakePDFText);
+
+    const result = await extractText('fake-file.pdf');
+
+    expect(fs.readFile).toHaveBeenCalledWith('fake-file.pdf');
+    expect(PDFParse).toHaveBeenCalledWith({ data: fakeBuffer });
+    expect(result).toBe('Extracted text from PDF');
   });
+});
 
 describe('isValidDtaResult', () => {
   test('returns true when it has more than 3 fields filled', () => {
