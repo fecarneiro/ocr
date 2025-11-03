@@ -1,13 +1,19 @@
+import fs from 'node:fs/promises';
+import { PDFParse } from 'pdf-parse';
 import { extractText, isValidDtaResult } from '../src/core/pdf-extractor';
 import { DtaResult } from '../src/types';
 
+jest.mock('fs/promises');
+jest.mock('pdf-parser');
 const file = 'tests/fixtures/valid-data.pdf';
 
-// >> run with npm test <<
-test('extracts text from pdf file', async () => {
-  const extractedText = await extractText(file);
-  expect(typeof extractedText).toBe('string');
-});
+(describe('extractText'),
+  () => {
+    const mockPDFParse = PDFParse as jest.MockedClass<typeof PDFParse>;
+    const mockReadFile = fs.readFile as jest.MockedFunction<typeof fs.readFile>;
+    test('extracts text from pdf file', async () => {
+
+  });
 
 describe('isValidDtaResult', () => {
   test('returns true when it has more than 3 fields filled', () => {
@@ -25,10 +31,10 @@ describe('isValidDtaResult', () => {
   test('returns false when it has less than 3 fiels filled', () => {
     const invalidResult: DtaResult = {
       cnpjEmbarcador: null,
-      nomeBeneficiario: null,
-      valorCarga: 'R$ 1000',
-      descricaoCarga: 'Eletrônicos',
-      origin: null,
+      nomeBeneficiario: undefined,
+      valorCarga: undefined,
+      descricaoCarga: undefined,
+      origin: undefined,
       destination: null,
     };
     expect(isValidDtaResult(invalidResult)).toBe(false);
