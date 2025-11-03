@@ -3,6 +3,8 @@ const dtaRegex = {
   nomeBeneficiario: /Nome\s+do\s+Beneficiário\s*:\s*([^\n]+)/,
   valorCarga: /Valor\s+da\s+Carga\s+em\s+Moeda\s+Nacional\s*:\s*([^\n]+)/,
   descricaoCarga: /Descrição\s+da\s+Carga\s+na\s+Fatura\s*:\s*([^\n]+)/,
+};
+const locationRegex = {
   location: /Unidade\s+Local\s*:\s*([^\n]+)/g,
 };
 
@@ -23,7 +25,7 @@ async function matchFields(data: string) {
   }
 
   const locations = [];
-  const location = data.matchAll(dtaRegex.location);
+  const location = data.matchAll(locationRegex.location);
   for (const loc of location) {
     locations.push(loc[1]);
   }

@@ -10,21 +10,22 @@ async function extractText(pdfFile: string | Buffer) {
   return text;
 }
 
+function truthyValues(text: object) {
+  const filledValues = Object.values(text).filter((value) => value != null);
+  return filledValues;
+}
+
 async function tryTextExtraction(
   pdfFile: string | Buffer
 ): Promise<{ success: boolean; data?: DtaResult }> {
   try {
     const extractor = await extractText(pdfFile);
-    const extractedPages = extractor.pages;
-
-    for (const page of extractedPages) {
-      if (!page.text) {
-        return { success: false };
-      }
-    }
-
-    const extractedText: string = extractor.text;
+    const extractedText = extractor.text;
     const result = await matchFields(extractedText);
+    const filledValues = truthyValues(result);
+    if (filledValues.length === 0) {
+      return { success: false };
+    }
 
     return {
       success: true,
