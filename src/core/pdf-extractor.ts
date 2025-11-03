@@ -9,8 +9,8 @@ async function extractText(pdfFile: string | Buffer): Promise<string> {
   return (await parser.getText()).text;
 }
 
-function hasMinimumRequiredFields(dtaResult: DtaResult): boolean {
-  const MINIMUM_FIELDS = 3;
+function isValidDtaResult(dtaResult: DtaResult): boolean {
+  const MINIMUM_FIELDS = 4;
   const filledValues = Object.values(dtaResult).filter(
     (value) => value != null
   );
@@ -21,16 +21,16 @@ async function tryTextExtraction(
   pdfFile: string | Buffer
 ): Promise<{ success: boolean; data?: DtaResult }> {
   try {
-    const extractedText = await extractText(pdfFile);
-    const result = await matchFields(extractedText);
+    const text = await extractText(pdfFile);
+    const parsedText = await matchFields(text);
 
-    if (!hasMinimumRequiredFields(result)) {
+    if (!isValidDtaResult(parsedText)) {
       return { success: false };
     }
 
     return {
       success: true,
-      data: result,
+      data: parsedText,
     };
   } catch (error) {
     console.error('Error parsing PDF', error);
@@ -40,4 +40,4 @@ async function tryTextExtraction(
   }
 }
 
-export { extractText, hasMinimumRequiredFields, tryTextExtraction };
+export { extractText, isValidDtaResult, tryTextExtraction };
