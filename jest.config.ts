@@ -1,7 +1,7 @@
 import type { Config } from 'jest';
 
 const config: Config = {
-  preset: 'ts-jest',
+  preset: 'ts-jest/presets/default-esm',
   testEnvironment: 'node',
   clearMocks: true,
   collectCoverage: true,
@@ -15,18 +15,17 @@ const config: Config = {
     '^.+\\.ts$': [
       'ts-jest',
       {
-        useESM: false, // <-- mudou aqui
+        useESM: true,
         tsconfig: {
+          module: 'ES2022',
           esModuleInterop: true,
           moduleResolution: 'Node',
-          module: 'commonjs', // <-- adicionou aqui
         },
       },
     ],
   },
 
-  // Removeu estas linhas:
-  // extensionsToTreatAsEsm: ['.ts'],
+  extensionsToTreatAsEsm: ['.ts'],
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
   },
