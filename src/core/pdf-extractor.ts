@@ -3,28 +3,28 @@ import { matchFields } from '../services/dta-service.js';
 import fs from 'node:fs/promises';
 import { DtaResult } from '../types/index.js';
 
-async function extractText(pdfFile: string | Buffer) {
+async function extractText(pdfFile: string | Buffer): Promise<string> {
   const buffer = await fs.readFile(pdfFile);
   const parser = new PDFParse({ data: buffer });
-  const text = await parser.getText();
-  return text;
+  return (await parser.getText()).text;
 }
 
-function hasMinimumRequiredFields(text: DtaResult) {
-  const MININUM_FIELDS = 3;
-  const filledValues = Object.values(text).filter((value) => value != null);
-  return filledValues.length >= MININUM_FIELDS;
+function hasMinimumRequiredFields(dtaResult: DtaResult): boolean {
+  const MINIMUM_FIELDS = 3;
+  const filledValues = Object.values(dtaResult).filter(
+    (value) => value != null
+  );
+  return filledValues.length >= MINIMUM_FIELDS;
 }
 
 async function tryTextExtraction(
   pdfFile: string | Buffer
 ): Promise<{ success: boolean; data?: DtaResult }> {
   try {
-    const extractor = await extractText(pdfFile);
-    const extractedText = extractor.text;
+    const extractedText = await extractText(pdfFile);
     const result = await matchFields(extractedText);
 
-    if (!hasMinimumRequiredFields) {
+    if (!hasMinimumRequiredFields(result)) {
       return { success: false };
     }
 
