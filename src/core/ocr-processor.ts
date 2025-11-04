@@ -2,10 +2,9 @@ import { pdf } from 'pdf-to-img';
 import { createWorker } from 'tesseract.js';
 import fs from 'node:fs/promises';
 import { matchFields } from '../services/dta-service.js';
-import { sharpPNG } from '../services/image-service.js';
 import sharp from 'sharp';
 
-async function createTesseractWorker() {
+async function createTesseractWorker(): Promise<object> {
   const worker = await createWorker('por', 1, {
     cachePath: './tessdata',
     cacheMethod: 'write',
@@ -24,7 +23,7 @@ async function pdfToImage(pdfFile: string | Buffer): Promise<ArrayBuffer[]> {
   }
   return pages;
 }
-async function optimizeImage(pages: ArrayBuffer[]) {
+async function optimizeImage(pages: ArrayBuffer[]): Promise<Buffer[]> {
   console.log('buffer length ', pages.length);
   let counter = 1;
   const optimizedPages = [];
@@ -43,13 +42,21 @@ async function optimizeImage(pages: ArrayBuffer[]) {
   return optimizedPages;
 }
 
+async function recognizeImage(worker, optmizedImages) {
+  let data: string = '';
+  const {
+    data: { text },
+  } = await worker.recognize(ocrReadyImage);
+
+  data += text;
+}
+
 async function tryOCRExtraction(pdfFile: string | Buffer) {
   console.log('iniciando OCR para: ', pdfFile);
   try {
     const worker = await createTesseractWorker();
     // const images = pdfToImage(pdfFile);
     // const optimizedImages = optmizeImage(pdfFile);
-    let data: string = '';
 
     for await (const image of document) {
       const {
