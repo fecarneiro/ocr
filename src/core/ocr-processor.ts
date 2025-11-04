@@ -4,16 +4,29 @@ import fs from 'node:fs/promises';
 import { matchFields } from '../services/dta-service.js';
 import { sharpPNG } from '../services/image-service.js';
 
+async function createTesseractWorker() {
+  const worker = await createWorker('por', 1, {
+    cachePath: './tessdata',
+    cacheMethod: 'write',
+  });
+  return worker;
+}
+
 async function tryOCRExtraction(pdfFile: string | Buffer) {
+  console.log('iniciando OCR para: ', pdfFile);
   try {
-    const document = await pdf(pdfFile, { scale: 2 });
-    console.log(document);
-    const worker = await createWorker('por', 1, {
-      cachePath: './tessdata',
-      cacheMethod: 'write',
-    });
+   const worker = await createTesseractWorker();
+
+    async function pdfToImage(pdfFile: string | Buffer) {
+      let counter = 1;
+      const document = await pdf(pdfFile, { scale: 2 });
+      for await (const image of document) {
+         await fs.writeFile(`page${counter}.png`, image);
+        counter++;
+    }
 
     let data: string = '';
+
     for await (const image of document) {
       const ocrReadyImage = await sharpPNG(image);
       const {
@@ -23,7 +36,11 @@ async function tryOCRExtraction(pdfFile: string | Buffer) {
       data += text;
     }
 
+    await fs.writeFile('./data/outputtext.txt', data);
+
+    console.log(data);
     const result = await matchFields(data);
+
     await worker.terminate();
     return {
       success: true,
@@ -37,4 +54,4 @@ async function tryOCRExtraction(pdfFile: string | Buffer) {
   }
 }
 
-export { tryOCRExtraction };
+export { tryOCRExtraction, pdfToImage };
