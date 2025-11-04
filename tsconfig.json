@@ -16,6 +16,7 @@
     "src/**/*",
     "tests/**/*",
     "dev.ts",
+    "dev/**/*",
     "dev.js",
     "dev/dev-raw-img.ts"
   ],

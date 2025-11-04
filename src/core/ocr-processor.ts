@@ -7,23 +7,21 @@ import { sharpPNG } from '../services/image-service.js';
 async function tryOCRExtraction(pdfFile: string | Buffer) {
   try {
     const document = await pdf(pdfFile, { scale: 2 });
+    console.log(document);
     const worker = await createWorker('por', 1, {
       cachePath: './tessdata',
       cacheMethod: 'write',
     });
-    let data: string = '';
 
+    let data: string = '';
     for await (const image of document) {
       const ocrReadyImage = await sharpPNG(image);
-
-      await fs.writeFile('./data/output/image.png', ocrReadyImage);
       const {
         data: { text },
       } = await worker.recognize(ocrReadyImage);
+
       data += text;
     }
-
-    await fs.writeFile('./data/outputtext.txt', data);
 
     const result = await matchFields(data);
     await worker.terminate();

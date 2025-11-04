@@ -10,7 +10,7 @@ async function extractText(pdfFile: string | Buffer): Promise<string> {
 }
 
 function isValidDtaResult(dtaResult: DtaResult): boolean {
-  const MINIMUM_FIELDS = 3;
+  const MINIMUM_FIELDS = 1;
   const filledValues = Object.values(dtaResult).filter(
     (value) => value != null
   );
@@ -23,7 +23,6 @@ async function tryTextExtraction(
   try {
     const text = await extractText(pdfFile);
     const parsedText = await matchFields(text);
-
     if (!isValidDtaResult(parsedText)) {
       return { success: false };
     }

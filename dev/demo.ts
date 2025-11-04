@@ -19,8 +19,8 @@ async function main(pdfFile: string | Buffer) {
 
   const pdfParse = await tryTextExtraction(pdfFile);
   if (pdfParse.success) {
-    const jsonParse = JSON.stringify(pdfParse.data);
-    await fs.appendFile('text-extraction.txt', jsonParse, 'utf8');
+    const jsonParse = JSON.stringify(pdfParse.data, null, 2);
+    await fs.appendFile(`text-extraction.txt`, jsonParse, 'utf8');
 
     return console.log({
       success: true,
@@ -46,16 +46,23 @@ async function main(pdfFile: string | Buffer) {
   });
 }
 
-const pdfArray = [
-  'dta1.pdf',
-  'dta2.pdf',
-  'dta3.pdf',
-  'dta4.pdf',
-  'dta5.pdf',
-  'dta6.pdf',
-  'dta7.pdf',
-  'dta8.pdf',
-];
+// const pdfArray: Array<string> = [
+//   'dta1.pdf',
+//   'dta2.pdf',
+//   'dta3.pdf',
+//   'dta4.pdf',
+//   'dta5.pdf',
+//   'dta6.pdf',
+//   'dta7.pdf',
+// ];
+const pdfArray: Array<string> = ['dta1-png.pdf'];
 
-const pdfFile = path.join(inputDir, 'dta1.pdf');
-main(pdfFile);
+async function fileIteration(pdfArray: Array<string>) {
+  for (const file of pdfArray) {
+    console.log('starting pdf:', file);
+    let pdfFile = path.join(inputDir, file);
+    await main(pdfFile);
+  }
+}
+fileIteration(pdfArray);
+// main(pdfFile);
