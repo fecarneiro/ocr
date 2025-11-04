@@ -24,12 +24,11 @@ async function pdfToImage(pdfFile: string | Buffer): Promise<Buffer[]> {
   }
   return pages;
 }
-async function optimizeImage(pages: ArrayBuffer[]): Promise<Buffer[]> {
+async function optimizeImage(pages: Buffer[]): Promise<Buffer[]> {
   console.log('buffer length ', pages.length);
   let counter = 1;
-  const optimizedPages = [];
+  const optimizedPages: Buffer[] = [];
   for await (const page of pages) {
-    console.log('input page', page);
     const optmizedPage = await sharp(page)
       .greyscale()
       .normalise()
@@ -37,19 +36,18 @@ async function optimizeImage(pages: ArrayBuffer[]): Promise<Buffer[]> {
       .toBuffer();
     await fs.writeFile(`./data/output/opt-page${counter}.png`, optmizedPage);
     optimizedPages.push(optmizedPage);
-    console.log('optmized img', optmizedPage);
     counter++;
   }
   return optimizedPages;
 }
 
-async function recognizeImage(worker, images: Array<Buffer[]>) {
-  let data: string = '';
+async function recognizeImage(worker: Worker, images: Array<Buffer[]>) {
+  // let data: string = '';
   const {
     data: { text },
   } = await worker.recognize(images);
-
-  data += text;
+  // data += text;
+  return text;
 }
 
 async function tryOCRExtraction(pdfFile: string | Buffer) {
@@ -85,4 +83,4 @@ async function tryOCRExtraction(pdfFile: string | Buffer) {
   }
 }
 
-export { tryOCRExtraction, pdfToImage, optimizeImage };
+export { tryOCRExtraction, pdfToImage, optimizeImage, recognizeImage };
