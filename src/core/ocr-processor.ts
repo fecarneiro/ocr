@@ -22,7 +22,7 @@ async function createTesseractWorker(): Promise<Worker> {
 async function pdfToImage(pdfFile: string | Buffer): Promise<Buffer[]> {
   let counter = 1;
   const pages: Buffer[] = [];
-  const document = await pdf(pdfFile, { scale: 3 });
+  const document = await pdf(pdfFile, { scale: 4 });
   for await (const image of document) {
     await fs.writeFile(`./data/output/page${counter}.png`, image);
     pages.push(image);
@@ -38,7 +38,7 @@ async function optimizeImage(pages: Buffer[]): Promise<Buffer[]> {
     const optmizedPage = await sharp(page)
       .greyscale()
       .normalise()
-      .linear(1.2, 0)
+      .linear(1.6, 0)
       .sharpen()
       .png()
       .toBuffer();

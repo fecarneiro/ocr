@@ -1,11 +1,10 @@
 const dtaRegex = {
-  cnpjEmbarcador: /CNPJ\/CPF\s+do\s+Beneficiário\s*:\s*([^\n]+)/,
-  nomeBeneficiario: /Nome\s+do\s+Beneficiário\s*:\s*([^\n]+)/,
-  valorCarga: /Valor\s+da\s+Carga\s+em\s+Moeda\s+Nacional\s*:\s*([^\n]+)/,
-  descricaoCarga: /Descrição\s+da\s+Carga\s+na\s+Fatura\s*:\s*([^\n]+)/,
-};
-const locationRegex = {
-  location: /Unidade\s+Local\s*:\s*([^\n]+)/g,
+  cnpjEmbarcador: /CNPJ(?:\/CPF)?\s+do\s+Beneficiário\s*:\s*([^\n]+)/i,
+  nomeBeneficiario: /Nome\s+do\s+Beneficiário\s*:\s*([^\n]+)/i,
+  valorCarga: /Valor\s+da\s+Carga\s+em\s+Moeda\s+Nacional\s*:\s*([^\n]+)/i,
+  descricaoCarga: /Descrição\s+da\s+Carga\s+na\s+Fatura\s*:\s*([^\n]+)/i,
+  origem: /Origem\s*[\s\S]*?Unidade\s+Local\s*:\s*([^\n]+)/i,
+  destino: /Destino\s*[\s\S]*?Unidade\s+Local\s*:\s*([^\n]+)/i,
 };
 
 function matchFieldsWithRegex(data: string) {
@@ -14,8 +13,8 @@ function matchFieldsWithRegex(data: string) {
     nomeBeneficiario: '',
     valorCarga: '',
     descricaoCarga: '',
-    origin: '',
-    destination: '',
+    origem: '',
+    destino: '',
   };
 
   for (const [key, value] of Object.entries(dtaRegex)) {
@@ -23,16 +22,6 @@ function matchFieldsWithRegex(data: string) {
     const match = fullMatch ? fullMatch[1] : null;
     regexExtraction[key] = match;
   }
-
-  const locations = [];
-  const location = data.matchAll(locationRegex.location);
-  for (const loc of location) {
-    locations.push(loc[1]);
-  }
-
-  regexExtraction.origin = locations[0];
-  regexExtraction.destination = locations[1];
-
   return regexExtraction;
 }
 export { matchFieldsWithRegex };
