@@ -12,6 +12,8 @@ async function createTesseractWorker(): Promise<Worker> {
   });
   return worker;
 }
+const worker = createTesseractWorker();
+console.log(worker);
 
 async function pdfToImage(pdfFile: string | Buffer): Promise<Buffer[]> {
   let counter = 1;
@@ -41,7 +43,10 @@ async function optimizeImage(pages: Buffer[]): Promise<Buffer[]> {
   return optimizedPages;
 }
 
-async function recognizeImage(worker: Worker, images: Array<Buffer[]>) {
+async function recognizeImage(
+  worker: Worker,
+  images: Buffer[]
+): Promise<string> {
   // let data: string = '';
   const {
     data: { text },
@@ -83,4 +88,10 @@ async function tryOCRExtraction(pdfFile: string | Buffer) {
   }
 }
 
-export { tryOCRExtraction, pdfToImage, optimizeImage, recognizeImage };
+export {
+  tryOCRExtraction,
+  pdfToImage,
+  optimizeImage,
+  recognizeImage,
+  createTesseractWorker,
+};
