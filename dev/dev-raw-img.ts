@@ -1,8 +1,7 @@
 import { pdf } from 'pdf-to-img';
 import { createWorker } from 'tesseract.js';
 import fs from 'node:fs/promises';
-import { matchFields } from '../services/dta-service.js';
-import { sharpPNG } from '../services/image-service.js';
+import { matchFields } from '../src/services/dta-service.js';
 
 async function tryOCRExtraction(pdfFile: string | Buffer) {
   try {
@@ -14,16 +13,12 @@ async function tryOCRExtraction(pdfFile: string | Buffer) {
     let data: string = '';
 
     for await (const image of document) {
-      const ocrReadyImage = await sharpPNG(image);
-
-      await fs.writeFile('./data/output/image.png', ocrReadyImage);
       const {
         data: { text },
-      } = await worker.recognize(ocrReadyImage);
+      } = await worker.recognize(image);
       data += text;
+      await fs.writeFile('./data/output/image.png', image);
     }
-
-    await fs.writeFile('./data/outputtext.txt', data);
 
     const result = await matchFields(data);
     await worker.terminate();
@@ -39,4 +34,4 @@ async function tryOCRExtraction(pdfFile: string | Buffer) {
   }
 }
 
-export { tryOCRExtraction };
+tryOCRExtraction('data/input/dta1-png.pdf');

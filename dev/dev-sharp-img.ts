@@ -1,8 +1,8 @@
 import { pdf } from 'pdf-to-img';
 import { createWorker } from 'tesseract.js';
 import fs from 'node:fs/promises';
-import { matchFields } from '../services/dta-service.js';
-import { sharpPNG } from '../services/image-service.js';
+import { matchFields } from '../src/services/dta-service.js';
+import { sharpPNG } from '../src/services/image-service.js';
 
 async function tryOCRExtraction(pdfFile: string | Buffer) {
   try {
@@ -39,4 +39,4 @@ async function tryOCRExtraction(pdfFile: string | Buffer) {
   }
 }
 
-export { tryOCRExtraction };
+tryOCRExtraction('data/input/dta1-png.pdf');

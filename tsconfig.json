@@ -12,6 +12,12 @@
     "moduleResolution": "node",
     "skipLibCheck": true
   },
-  "include": ["src/**/*", "tests/**/*", "dev.ts", "dev.js"],
+  "include": [
+    "src/**/*",
+    "tests/**/*",
+    "dev.ts",
+    "dev.js",
+    "dev/dev-raw-img.ts"
+  ],
   "exclude": ["./coverage", "./dist", "node_modules"]
 }
