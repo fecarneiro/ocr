@@ -12,19 +12,20 @@ async function createTesseractWorker() {
   return worker;
 }
 
+async function pdfToImage(pdfFile: string | Buffer) {
+  let counter = 1;
+  const pages = [];
+  const document = await pdf(pdfFile, { scale: 2 });
+  for await (const image of document) {
+    await fs.writeFile(`./data/output/page${counter}.png`, image);
+    counter++;
+  }
+}
 async function tryOCRExtraction(pdfFile: string | Buffer) {
   console.log('iniciando OCR para: ', pdfFile);
   try {
-   const worker = await createTesseractWorker();
-
-    async function pdfToImage(pdfFile: string | Buffer) {
-      let counter = 1;
-      const document = await pdf(pdfFile, { scale: 2 });
-      for await (const image of document) {
-         await fs.writeFile(`page${counter}.png`, image);
-        counter++;
-    }
-
+    const worker = await createTesseractWorker();
+    // const images = pdfToImage(pdfFile);
     let data: string = '';
 
     for await (const image of document) {
