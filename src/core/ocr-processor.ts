@@ -3,8 +3,9 @@ import { createWorker } from 'tesseract.js';
 import fs from 'node:fs/promises';
 import { matchFields } from '../services/dta-service.js';
 import sharp from 'sharp';
+import type { Worker } from 'tesseract.js';
 
-async function createTesseractWorker(): Promise<object> {
+async function createTesseractWorker(): Promise<Worker> {
   const worker = await createWorker('por', 1, {
     cachePath: './tessdata',
     cacheMethod: 'write',
@@ -12,9 +13,9 @@ async function createTesseractWorker(): Promise<object> {
   return worker;
 }
 
-async function pdfToImage(pdfFile: string | Buffer): Promise<ArrayBuffer[]> {
+async function pdfToImage(pdfFile: string | Buffer): Promise<Buffer[]> {
   let counter = 1;
-  const pages = [];
+  const pages: Buffer[] = [];
   const document = await pdf(pdfFile, { scale: 2 });
   for await (const image of document) {
     await fs.writeFile(`./data/output/page${counter}.png`, image);
@@ -42,11 +43,11 @@ async function optimizeImage(pages: ArrayBuffer[]): Promise<Buffer[]> {
   return optimizedPages;
 }
 
-async function recognizeImage(worker, optmizedImages) {
+async function recognizeImage(worker, images: Array<Buffer[]>) {
   let data: string = '';
   const {
     data: { text },
-  } = await worker.recognize(ocrReadyImage);
+  } = await worker.recognize(images);
 
   data += text;
 }
