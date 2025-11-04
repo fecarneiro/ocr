@@ -8,7 +8,7 @@ const locationRegex = {
   location: /Unidade\s+Local\s*:\s*([^\n]+)/g,
 };
 
-async function matchFields(data: string) {
+function matchFieldsWithRegex(data: string) {
   const regexExtraction = {
     cnpjEmbarcador: '',
     nomeBeneficiario: '',
@@ -35,4 +35,4 @@ async function matchFields(data: string) {
 
   return regexExtraction;
 }
-export { matchFields };
+export { matchFieldsWithRegex };

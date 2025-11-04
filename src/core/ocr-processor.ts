@@ -1,9 +1,10 @@
 import { pdf } from 'pdf-to-img';
 import { createWorker } from 'tesseract.js';
 import fs from 'node:fs/promises';
-import { matchFields } from '../services/dta-service.js';
+import { matchFieldsWithRegex } from '../services/dta-service.js';
 import sharp from 'sharp';
 import type { Worker } from 'tesseract.js';
+import type { DtaResult } from '../types/index.ts';
 
 async function createTesseractWorker(): Promise<Worker> {
   const worker = await createWorker('por', 1, {
@@ -55,34 +56,24 @@ async function recognizeImage(
   return extractedText;
 }
 
+function regexMatch(text: string): DtaResult {
+  const regexObjectResult = matchFieldsWithRegex(text);
+  return regexObjectResult;
+}
+
 async function tryOCRExtraction(pdfFile: string | Buffer) {
   console.log('iniciando OCR para: ', pdfFile);
   try {
     const worker = await createTesseractWorker();
-    // const images = pdfToImage(pdfFile);
-    // const optimizedImages = optmizeImage(pdfFile);
-
-    for await (const image of document) {
-      const {
-        data: { text },
-      } = await worker.recognize(ocrReadyImage);
-
-      data += text;
-    }
-
-    console.log(data);
-    const result = await matchFields(data);
-
+    const images = await pdfToImage(pdfFile);
+    const optimizedImages = await optimizeImage(images);
+    const extractedText = await recognizeImage(worker, optimizedImages);
+    const ocrExtractionResult = regexMatch(extractedText);
     await worker.terminate();
-    return {
-      success: true,
-      data: result,
-    };
+    return { success: true, data: ocrExtractionResult };
   } catch (error) {
     console.error('Error extracting text with OCR', error);
-    return {
-      success: false,
-    };
+    return { success: false };
   }
 }
 
@@ -92,4 +83,5 @@ export {
   optimizeImage,
   recognizeImage,
   createTesseractWorker,
+  regexMatch,
 };
