@@ -12,8 +12,6 @@ async function createTesseractWorker(): Promise<Worker> {
   });
   return worker;
 }
-const worker = createTesseractWorker();
-console.log(worker);
 
 async function pdfToImage(pdfFile: string | Buffer): Promise<Buffer[]> {
   let counter = 1;
@@ -27,7 +25,7 @@ async function pdfToImage(pdfFile: string | Buffer): Promise<Buffer[]> {
   return pages;
 }
 async function optimizeImage(pages: Buffer[]): Promise<Buffer[]> {
-  console.log('buffer length ', pages.length);
+  console.log('[sharp]buffer length ', pages.length);
   let counter = 1;
   const optimizedPages: Buffer[] = [];
   for await (const page of pages) {
@@ -47,12 +45,14 @@ async function recognizeImage(
   worker: Worker,
   images: Buffer[]
 ): Promise<string> {
-  // let data: string = '';
-  const {
-    data: { text },
-  } = await worker.recognize(images);
-  // data += text;
-  return text;
+  let extractedText: string = '';
+  for await (const image of images) {
+    const {
+      data: { text },
+    } = await worker.recognize(image);
+    extractedText += text;
+  }
+  return extractedText;
 }
 
 async function tryOCRExtraction(pdfFile: string | Buffer) {
@@ -69,8 +69,6 @@ async function tryOCRExtraction(pdfFile: string | Buffer) {
 
       data += text;
     }
-
-    await fs.writeFile('./data/outputtext.txt', data);
 
     console.log(data);
     const result = await matchFields(data);

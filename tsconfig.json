@@ -18,7 +18,7 @@
     "src/dev.ts",
     "dev/**/*",
     "dev.js",
-    "dev/dev-raw-img.ts"
+    "dev/images.ts"
   ],
   "exclude": ["./coverage", "./dist", "node_modules"]
 }
