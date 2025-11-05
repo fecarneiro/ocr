@@ -1,5 +1,5 @@
 import { PDFParse } from 'pdf-parse';
-import { matchFields } from '../services/dta-service.js';
+import { matchFieldsWithRegex } from '../services/dta-service.js';
 import fs from 'node:fs/promises';
 import type { DtaResult } from '../types/index.js';
 
@@ -22,7 +22,7 @@ async function tryTextExtraction(
 ): Promise<{ success: boolean; data?: DtaResult }> {
   try {
     const text = await extractText(pdfFile);
-    const parsedText = await matchFields(text);
+    const parsedText = await matchFieldsWithRegex(text);
     if (!isValidDtaResult(parsedText)) {
       return { success: false };
     }
