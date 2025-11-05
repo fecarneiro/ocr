@@ -44,20 +44,7 @@ async function optimizeImage(pages: Buffer[]): Promise<Buffer[]> {
   }
   return optimizedPages;
 }
-async function optimizeImageMetrics(pages: Buffer[]): Promise<Buffer[]> {
-  let counter = 1;
-  const optimizedPages: Buffer[] = [];
-  for await (const page of pages) {
-    const image = await sharp(page).greyscale().normalise().sharpen().png();
 
-    const imageSpecs = await image.stats();
-    const optmizedPage = await image.toBuffer();
-    await fs.writeFile(`./data/output/opt-page${counter}.png`, optmizedPage);
-    optimizedPages.push(optmizedPage);
-    counter++;
-  }
-  return optimizedPages;
-}
 async function recognizeImage(
   worker: Worker,
   images: Buffer[]
@@ -85,7 +72,6 @@ async function tryOCRExtraction(
     const extractedText = await recognizeImage(worker, optimizedImages);
     const ocrExtractionResult = regexMatch(extractedText);
     await worker.terminate();
-    console.log(ocrExtractionResult);
     return { success: true, data: ocrExtractionResult };
   } catch (error) {
     console.error('Error extracting text with OCR', error);
