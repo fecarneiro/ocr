@@ -85,6 +85,7 @@ async function tryOCRExtraction(
     const extractedText = await recognizeImage(worker, optimizedImages);
     const ocrExtractionResult = regexMatch(extractedText);
     await worker.terminate();
+    console.log(ocrExtractionResult);
     return { success: true, data: ocrExtractionResult };
   } catch (error) {
     console.error('Error extracting text with OCR', error);
