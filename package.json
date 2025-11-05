@@ -10,7 +10,8 @@
     "typecheck": "tsc",
     "typecheck:watch": "tsc --watch",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "build": "tsc -p tsconfig.build.json"
   },
   "keywords": [],
   "author": "",
