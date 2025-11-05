@@ -41,6 +41,7 @@ async function main(pdfFile: string | Buffer) {
     data: null,
     message: 'Failed extracting data with both options: PDF Parse and OCR',
   });
+}
 
 const pdfFile = path.join(inputDir, 'dta1.pdf');
 main(pdfFile);
