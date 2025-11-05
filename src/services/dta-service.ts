@@ -16,7 +16,7 @@ const dtaRegex: DtaRegexConfig = {
 };
 
 function matchFieldsWithRegex(data: string): DtaResult {
-  return {
+  const result: DtaResult = {
     cnpjEmbarcador: data.match(dtaRegex.cnpjEmbarcador)?.[1] ?? null,
     nomeBeneficiario: data.match(dtaRegex.nomeBeneficiario)?.[1] ?? null,
     valorCarga: data.match(dtaRegex.valorCarga)?.[1] ?? null,
@@ -24,6 +24,7 @@ function matchFieldsWithRegex(data: string): DtaResult {
     origem: data.match(dtaRegex.origem)?.[1] ?? null,
     destino: data.match(dtaRegex.destino)?.[1] ?? null,
   };
+  return result;
 }
 
 export { matchFieldsWithRegex };
