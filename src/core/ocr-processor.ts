@@ -28,7 +28,7 @@ async function pdfToImage(pdfFile: string | Buffer): Promise<Buffer[]> {
   return pages;
 }
 async function optimizeImage(pages: Buffer[]): Promise<Buffer[]> {
-  let counter = 1;
+  // let counter = 1;
   const optimizedPages: Buffer[] = [];
   for await (const page of pages) {
     const optmizedPage = await sharp(page)
@@ -38,9 +38,9 @@ async function optimizeImage(pages: Buffer[]): Promise<Buffer[]> {
       .sharpen()
       .png()
       .toBuffer();
-    await fs.writeFile(`./data/output/opt-page${counter}.png`, optmizedPage);
+    // await fs.writeFile(`./data/output/opt-page${counter}.png`, optmizedPage);
     optimizedPages.push(optmizedPage);
-    counter++;
+    // counter++;
   }
   return optimizedPages;
 }
