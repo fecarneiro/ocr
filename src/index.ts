@@ -43,5 +43,5 @@ async function main(pdfFile: string | Buffer) {
   });
 }
 
-const pdfFile = path.join(inputDir, 'dta7.pdf');
+const pdfFile = path.join(inputDir, 'dta6.pdf');
 main(pdfFile);
