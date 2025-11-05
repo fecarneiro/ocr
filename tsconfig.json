@@ -15,5 +15,15 @@
     "verbatimModuleSyntax": true
   },
   "include": ["src/**/*", "tests/**/*", "dev/**/*", "dev.ts"],
-  "exclude": ["./dist", "node_modules"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "coverage",
+    "data",
+    "**/*.pdf",
+    "**/*.png",
+    "**/*.txt",
+    "temp*",
+    "fixtures"
+  ]
 }

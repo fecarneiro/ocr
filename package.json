@@ -4,14 +4,17 @@
   "description": "",
   "main": "ocr.js",
   "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "typecheck:watch": "tsc --watch",
+    "dev:full": "concurrently \"npm run dev\" \"npm run typecheck:watch\"",
     "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "typecheck": "tsc",
-    "typecheck:watch": "tsc --watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "build": "tsc -p tsconfig.build.json"
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",
@@ -25,7 +28,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.38.0",
-    "@tsconfig/node22": "^22.0.2",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.9.2",
     "@types/pdf-parse": "^1.1.5",
@@ -34,7 +36,6 @@
     "jest": "^30.2.0",
     "prettier": "^3.6.2",
     "ts-jest": "^29.4.5",
-    "ts-node": "^10.9.2",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.2"
