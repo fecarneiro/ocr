@@ -28,7 +28,6 @@ async function pdfToImage(pdfFile: string | Buffer): Promise<Buffer[]> {
   return pages;
 }
 async function optimizeImage(pages: Buffer[]): Promise<Buffer[]> {
-  console.log('[sharp]buffer length ', pages.length);
   let counter = 1;
   const optimizedPages: Buffer[] = [];
   for await (const page of pages) {
@@ -46,15 +45,12 @@ async function optimizeImage(pages: Buffer[]): Promise<Buffer[]> {
   return optimizedPages;
 }
 async function optimizeImageMetrics(pages: Buffer[]): Promise<Buffer[]> {
-  console.log('[sharp]buffer length ', pages.length);
   let counter = 1;
   const optimizedPages: Buffer[] = [];
   for await (const page of pages) {
     const image = await sharp(page).greyscale().normalise().sharpen().png();
 
     const imageSpecs = await image.stats();
-    console.log('sharpness: ', imageSpecs.sharpness);
-    console.log('entropy: ', imageSpecs.entropy);
     const optmizedPage = await image.toBuffer();
     await fs.writeFile(`./data/output/opt-page${counter}.png`, optmizedPage);
     optimizedPages.push(optmizedPage);
@@ -72,7 +68,6 @@ async function recognizeImage(
       data: { text, confidence },
     } = await worker.recognize(image);
     extractedText += text;
-    console.log('[tesseract]confidence: ', confidence);
   }
   return extractedText;
 }
@@ -83,7 +78,6 @@ function regexMatch(text: string): DtaResult {
 async function tryOCRExtraction(
   pdfFile: string | Buffer
 ): Promise<{ success: boolean; data?: DtaResult }> {
-  console.log('iniciando OCR para: ', pdfFile);
   try {
     const worker = await createTesseractWorker();
     const images = await pdfToImage(pdfFile);
