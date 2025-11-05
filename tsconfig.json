@@ -14,7 +14,7 @@
     "isolatedModules": true,
     "verbatimModuleSyntax": true
   },
-  "include": ["src/**/*", "tests/**/*", "dev/**/*", "dev.ts"],
+  "include": ["src/**/*", "tests/**/*", "dev/**/*"],
   "exclude": [
     "node_modules",
     "dist",

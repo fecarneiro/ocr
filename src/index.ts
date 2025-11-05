@@ -1,5 +1,5 @@
+import { tryOCRExtraction } from './core/ocr-processor.js'; //TODO: FRAGIL: bug na ordem
 import { tryTextExtraction } from './core/pdf-extractor.js';
-import { tryOCRExtraction } from './core/ocr-processor.js';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
@@ -41,7 +41,6 @@ async function main(pdfFile: string | Buffer) {
     data: null,
     message: 'Failed extracting data with both options: PDF Parse and OCR',
   });
-}
 
-const pdfFile = path.join(inputDir, 'dta1-png.pdf');
+const pdfFile = path.join(inputDir, 'dta1.pdf');
 main(pdfFile);
