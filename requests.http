@@ -1,0 +1,3 @@
+curl -X POST -H "Content-Type: application/json" -d '{"hello": "fe"}' http://localhost:8080/upload
+###
+curl -X POST -d '{"hello": "fe"}' http://localhost:8080/upload
