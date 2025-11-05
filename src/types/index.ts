@@ -1,4 +1,4 @@
-interface DtaResult {
+export interface DtaResult {
   cnpjEmbarcador: string | null;
   nomeBeneficiario: string | null;
   valorCarga: string | null;
@@ -6,5 +6,3 @@ interface DtaResult {
   origem: string | null;
   destino: string | null;
 }
-
-export { DtaResult };
