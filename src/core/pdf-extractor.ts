@@ -27,15 +27,10 @@ async function tryTextExtraction(
       return { success: false };
     }
 
-    return {
-      success: true,
-      data: parsedText,
-    };
+    return { success: true, data: parsedText };
   } catch (error) {
     console.error('Error parsing PDF', error);
-    return {
-      success: false,
-    };
+    return { success: false };
   }
 }
 

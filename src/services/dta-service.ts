@@ -1,3 +1,4 @@
+import type { DtaResult } from '../types/index.js';
 const dtaRegex = {
   cnpjEmbarcador: /CNPJ(?:\/CPF)?\s+do\s+Beneficiário\s*:\s*([^\n]+)/i,
   nomeBeneficiario: /Nome\s+do\s+Beneficiário\s*:\s*([^\n]+)/i,
@@ -10,20 +11,21 @@ const dtaRegex = {
 };
 
 function matchFieldsWithRegex(data: string) {
-  const regexExtraction = {
-    cnpjEmbarcador: '',
-    nomeBeneficiario: '',
-    valorCarga: '',
-    descricaoCarga: '',
-    origem: '',
-    destino: '',
+  const regexExtraction: DtaResult = {
+    cnpjEmbarcador: null, // ou ''
+    nomeBeneficiario: null,
+    valorCarga: null,
+    descricaoCarga: null,
+    origem: null,
+    destino: null,
   };
-
+  //opt chaining + nullish coalescing operator javascript
   for (const [key, value] of Object.entries(dtaRegex)) {
     const fullMatch = data.match(value);
-    const match = fullMatch ? fullMatch[1] : null;
-    regexExtraction[key] = match;
+    const match = fullMatch?.[1] ?? null;
+    regexExtraction[key as keyof DtaResult] = match;
   }
+
   return regexExtraction;
 }
 export { matchFieldsWithRegex };

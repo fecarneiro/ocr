@@ -14,7 +14,6 @@ async function createTesseractWorker(): Promise<Worker> {
   await worker.setParameters({
     tessedit_char_whitelist:
       '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÀÁÃÂÇÉÊÍÓÔÕÚàáãâçéêíóôõú .:/-,()',
-
     tessedit_pageseg_mode: PSM.SINGLE_BLOCK, //TESTE PSM6
   });
   return worker;
@@ -28,7 +27,7 @@ async function pdfToImage(pdfFile: string | Buffer): Promise<Buffer[]> {
   return pages;
 }
 async function optimizeImage(pages: Buffer[]): Promise<Buffer[]> {
-  // let counter = 1;
+  let counter = 1;
   const optimizedPages: Buffer[] = [];
   for await (const page of pages) {
     const optmizedPage = await sharp(page)
@@ -38,9 +37,9 @@ async function optimizeImage(pages: Buffer[]): Promise<Buffer[]> {
       .sharpen()
       .png()
       .toBuffer();
-    // await fs.writeFile(`./data/output/opt-page${counter}.png`, optmizedPage);
+    await fs.writeFile(`./data/output/opt-page${counter}.png`, optmizedPage);
     optimizedPages.push(optmizedPage);
-    // counter++;
+    counter++;
   }
   return optimizedPages;
 }
@@ -52,7 +51,7 @@ async function recognizeImage(
   let extractedText: string = '';
   for await (const image of images) {
     const {
-      data: { text, confidence },
+      data: { text },
     } = await worker.recognize(image);
     extractedText += text;
   }
@@ -86,5 +85,4 @@ export {
   recognizeImage,
   createTesseractWorker,
   regexMatch,
-  optimizeImageMetrics,
 };
