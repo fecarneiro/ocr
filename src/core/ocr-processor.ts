@@ -20,13 +20,10 @@ async function createTesseractWorker(): Promise<Worker> {
   return worker;
 }
 async function pdfToImage(pdfFile: string | Buffer): Promise<Buffer[]> {
-  let counter = 1;
   const pages: Buffer[] = [];
   const document = await pdf(pdfFile, { scale: 3 });
   for await (const image of document) {
-    await fs.writeFile(`./data/output/page${counter}.png`, image);
     pages.push(image);
-    counter++;
   }
   return pages;
 }
