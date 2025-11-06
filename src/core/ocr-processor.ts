@@ -14,7 +14,7 @@ async function createTesseractWorker(): Promise<Worker> {
   await worker.setParameters({
     tessedit_char_whitelist:
       '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÀÁÃÂÇÉÊÍÓÔÕÚàáãâçéêíóôõú .:/-,()',
-    tessedit_pageseg_mode: PSM.SINGLE_BLOCK, //TESTE PSM6
+    tessedit_pageseg_mode: PSM.SINGLE_BLOCK, //TESTE PSM6!!
   });
   return worker;
 }
@@ -61,7 +61,7 @@ function regexMatch(text: string): DtaResult {
   const regexObjectResult = matchFieldsWithRegex(text);
   return regexObjectResult;
 }
-
+// TODO: pdf-parse: getScreenshot — Render Pages as PNG (testar no lugar de pdf2img)
 async function tryOCRExtraction(
   pdfFile: string | Buffer,
 ): Promise<{ success: boolean; data?: DtaResult }> {

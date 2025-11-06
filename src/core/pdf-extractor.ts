@@ -4,7 +4,9 @@ import type { DtaResult, ValidDocType } from '../types/types.js';
 
 async function extractText(pdfFile: Buffer): Promise<string> {
   const parser = new PDFParse({ data: pdfFile });
-  return (await parser.getText()).text;
+  const result = (await parser.getText()).text;
+  await parser.destroy();
+  return result;
 }
 
 function isValidDtaResult(dtaResult: DtaResult): boolean {
