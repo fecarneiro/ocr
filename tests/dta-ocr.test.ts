@@ -19,24 +19,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const inputDir = path.resolve(__dirname, '..', 'data', 'input');
 
-describe.skip('OCR extraction from manual conversion to image', () => {
-  it('OCR with dta1-png.pdf to have all fields matched', async () => {
-    const pdfFile = path.join(inputDir, 'dta1-png.pdf');
-    const result = await tryOCRExtraction(pdfFile);
-    expect(result.data).toMatchObject(DTA1_PNG);
-  });
-  it('OCR with dta2-png.pdf to have all fields matched', async () => {
-    const pdfFile = path.join(inputDir, 'dta2-png.pdf');
-    const result = await tryOCRExtraction(pdfFile);
-    expect(result.data).toMatchObject(DTA2_PNG);
-  });
-  it('OCR with dta3-png.pdf to have all fields matched', async () => {
-    const pdfFile = path.join(inputDir, 'dta3-png.pdf');
-    const result = await tryOCRExtraction(pdfFile);
-    expect(result.data).toMatchObject(DTA3_PNG);
-  });
-});
-
 describe.concurrent('PDF converted (pdf-to-img) to PNG with OCR', () => {
   it('OCR with dta1.pdf to have all fields matched', async () => {
     const pdfFile = path.join(inputDir, 'dta1.pdf');

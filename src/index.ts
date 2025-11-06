@@ -51,5 +51,5 @@ async function main(pdfFile: string | Buffer) {
   }
 }
 
-const pdfFile = path.join(inputDir, 'dta6.pdf');
+const pdfFile = path.join(inputDir, 'dta1.pdf');
 await main(pdfFile);
