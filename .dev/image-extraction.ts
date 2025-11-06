@@ -4,7 +4,7 @@ import {
   recognizeImage,
   createTesseractWorker,
   regexMatch,
-} from '../../src/core/ocr-processor.js';
+} from '../src/core/ocr-processor.js';
 
 async function tesseractOCR(pdfFile: string | Buffer) {
   try {

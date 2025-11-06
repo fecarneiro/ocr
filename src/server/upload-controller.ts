@@ -14,21 +14,21 @@ async function documentProcessor(pdfFile: Buffer) {
   const pdfParse = await tryTextExtraction(pdfFile);
 
   if (pdfParse.success) {
-    return console.log({
+    return {
       success: true,
       data: pdfParse.data,
       message: 'Text extracted using PDF Parse',
-    });
+    };
   }
 
   const pdfOCR = await tryOCRExtraction(pdfFile);
 
   if (pdfOCR.success) {
-    return console.log({
+    return {
       success: true,
       data: pdfOCR.data,
       message: 'Text extracted using PDF OCR',
-    });
+    };
   }
 
   return console.log({

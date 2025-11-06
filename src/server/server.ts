@@ -10,8 +10,7 @@ const upload = multer({ storage: storage }); //TODO: fileFilter multer
 
 function validateFile(req: Request, res: Response, next: NextFunction) {
   if (!req.file) {
-    res.status(400).send('missing file');
-    return;
+    return res.status(400).send('missing file');
   }
   next();
 }
@@ -20,12 +19,10 @@ function validateDocType(req: Request, res: Response, next: NextFunction) {
   const validTypes: ValidDocType[] = ['dta', 'di', 'nfe'];
   const reqDocType = req.params.docType;
   if (!reqDocType) {
-    res.status(400).send('missing path param with document type');
-    return;
+    return res.status(400).send('missing path param with document type');
   }
   if (!validTypes.includes(reqDocType as ValidDocType)) {
-    res.status(400).send('missing file');
-    return;
+    return res.status(400).send('document type not allowed');
   }
   next();
 }
@@ -33,21 +30,21 @@ function validateDocType(req: Request, res: Response, next: NextFunction) {
 app.post(
   '/upload/:docType',
   upload.single('file'),
+  validateFile,
   validateDocType,
-  async (req: Request, res: Response) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const fileBuffer: Buffer = req.file.buffer;
-      await documentProcessor(fileBuffer);
-      res.send('Hello World');
+      const fileBuffer: Buffer = req.file!.buffer;
+      const result = await documentProcessor(fileBuffer);
+      res.send(result);
     } catch (err) {
-      console.error(err);
-      res.status(500).send('upload failed');
+      next(err);
     }
   },
 );
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  res.status(500).json({ erro: err.message });
+app.use((err: Error, req: Request, res: Response) => {
+  res.status(500).json({ error: err.message });
 });
 
 app.listen(PORT, () => {
