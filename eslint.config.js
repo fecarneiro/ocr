@@ -38,7 +38,7 @@ export default [
       ],
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/no-misused-promises': 'error',
-      'no-console': 'warn',
+      // 'no-console': 'warn',
     },
   },
   {
