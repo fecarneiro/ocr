@@ -6,3 +6,5 @@ export interface DtaResult {
   origem: string | null;
   destino: string | null;
 }
+
+export type ValidDocType = 'dta' | 'di' | 'nfe';

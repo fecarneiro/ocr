@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import { PDFParse } from 'pdf-parse';
 import { matchFieldsWithRegex } from '../services/regex-services.js';
-import type { DtaResult } from '../types/index.js';
+import type { DtaResult } from '../types/types.js';
 
 async function extractText(pdfFile: string | Buffer): Promise<string> {
   const buffer = await fs.readFile(pdfFile);

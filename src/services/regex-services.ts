@@ -1,4 +1,4 @@
-import type { DtaResult } from '../types/index.js';
+import type { DtaResult } from '../types/types.js';
 
 type DtaRegexConfig = {
   [key in keyof DtaResult]: RegExp;
@@ -9,10 +9,8 @@ const dtaRegex: DtaRegexConfig = {
   nomeBeneficiario: /Nome\s+do\s+Beneficiário\s*:\s*([^\n]+)/i,
   valorCarga: /Valor\s+da\s+Carga\s+em\s+Moeda\s+Nacional\s*:\s*([^\n]+)/i,
   descricaoCarga: /Descrição\s+da\s+Carga\s+na\s+Fatura\s*:\s*([^\n]+)/i,
-  origem:
-    /(?<=origem|ori\s*gem)[^\n]*\n[\s\S]*?Unidade\s+Local\s*:\s*(\d+\s*-[^\n]+)/i,
-  destino:
-    /(?<=destino|dest\s*ino)[^\n]*\n[\s\S]*?Unidade\s+Local\s*:\s*(\d+\s*-[^\n]+)/i,
+  origem: /(?<=origem|ori\s*gem)[^\n]*\n[\s\S]*?Unidade\s+Local\s*:\s*(\d+\s*-[^\n]+)/i,
+  destino: /(?<=destino|dest\s*ino)[^\n]*\n[\s\S]*?Unidade\s+Local\s*:\s*(\d+\s*-[^\n]+)/i,
 };
 
 function matchFieldsWithRegex(data: string): DtaResult {

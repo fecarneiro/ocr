@@ -4,7 +4,7 @@ import sharp from 'sharp';
 import type { Worker } from 'tesseract.js';
 import { createWorker, PSM } from 'tesseract.js';
 import { matchFieldsWithRegex } from '../services/regex-services.js';
-import type { DtaResult } from '../types/index.ts';
+import type { DtaResult } from '../types/types.js';
 
 async function createTesseractWorker(): Promise<Worker> {
   const worker = await createWorker('por', 1, {
