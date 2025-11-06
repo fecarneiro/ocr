@@ -1,18 +1,9 @@
-import fastify from 'fastify';
+import express, { type Request, type Response } from 'express';
 
-const server = fastify({
-  // logger: true,
+const app = express();
+
+app.get('/', (req: Request, res: Response) => {
+  res.send('Hello World');
 });
 
-server.post('/upload', async (request, reply) => {
-  console.log(request.body);
-  return 'pong\n';
-});
-
-server.listen({ port: 8080 }, (err, address) => {
-  if (err) {
-    console.error(err);
-    process.exit(1);
-  }
-  console.log(`Server listening at ${address}`);
-});
+app.listen(3000);
