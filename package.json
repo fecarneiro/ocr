@@ -5,6 +5,7 @@
   "main": "ocr.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
+    "serv": "tsx watch src/server/server.ts",
     "typecheck": "tsc",
     "typecheck:watch": "tsc --watch",
     "test": "vitest",

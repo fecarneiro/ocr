@@ -2,7 +2,7 @@ import path from 'node:path';
 import { tryOCRExtraction } from '../core/ocr-processor.js'; //TODO: FRAGIL: bug na ordem
 import { tryTextExtraction } from '../core/pdf-extractor.js';
 
-async function uploadController(pdfFile: string | Buffer) {
+async function uploadController(pdfFile: Buffer) {
   if (typeof pdfFile === 'string' && path.extname(pdfFile) != '.pdf') {
     return {
       success: false,

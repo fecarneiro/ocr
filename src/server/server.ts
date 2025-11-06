@@ -5,9 +5,9 @@ import { uploadController } from './upload.controller.js';
 const PORT = 3000;
 const app = express();
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage }); //TODO: fileFilter multer
 
-app.post('/upload', upload.single('file'), async (req: Request, res: Response) => {
+app.post('/upload', upload.single('fileMULTER'), async (req: Request, res: Response) => {
   if (!req.file) {
     res.status(400).send('missing file');
     return;
@@ -22,4 +22,6 @@ app.post('/upload', upload.single('file'), async (req: Request, res: Response) =
   }
 });
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log('--server running');
+});
