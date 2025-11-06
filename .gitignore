@@ -10,7 +10,7 @@ dev.*
 .vscode
 pic/
 doc/
-.json
+*.json
 data*
 coverage/
 fixtures/

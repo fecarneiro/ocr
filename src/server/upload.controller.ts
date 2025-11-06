@@ -1,13 +1,8 @@
-import { tryOCRExtraction } from './core/ocr-processor.js'; //TODO: FRAGIL: bug na ordem
-import { tryTextExtraction } from './core/pdf-extractor.js';
-import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { tryOCRExtraction } from '../core/ocr-processor.js'; //TODO: FRAGIL: bug na ordem
+import { tryTextExtraction } from '../core/pdf-extractor.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const inputDir = path.resolve(__dirname, '..', 'data', 'input');
-
-async function main(pdfFile: string | Buffer) {
+async function uploadController(pdfFile: Buffer) {
   if (typeof pdfFile === 'string' && path.extname(pdfFile) != '.pdf') {
     return {
       success: false,
@@ -43,9 +38,4 @@ async function main(pdfFile: string | Buffer) {
   });
 }
 
-<<<<<<< HEAD
-const pdfFile = path.join(inputDir, 'dta5.pdf');
-=======
-const pdfFile = path.join(inputDir, 'dta6.pdf');
->>>>>>> main
-main(pdfFile);
+export { uploadController };

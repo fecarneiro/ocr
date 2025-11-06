@@ -1,10 +1,8 @@
-interface DtaResult {
+export interface DtaResult {
   cnpjEmbarcador: string | null;
   nomeBeneficiario: string | null;
   valorCarga: string | null;
   descricaoCarga: string | null;
-  origin: string | null;
-  destination: string | null;
+  origem: string | null;
+  destino: string | null;
 }
-
-export { DtaResult };

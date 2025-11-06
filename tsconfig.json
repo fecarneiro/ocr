@@ -1,24 +1,29 @@
 {
-  "extends": "@tsconfig/node22/tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": ".",
-    "strict": false,
-    "allowJs": true,
-    "noEmit": true,
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "noEmit": true,
     "resolveJsonModule": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true
   },
-  "include": [
-    "src/**/*",
-    "tests/**/*",
-    "src/dev.ts",
-    "dev/**/*",
-    "dev.js",
-    "dev/dev-raw-img.ts"
-  ],
-  "exclude": ["./coverage", "./dist", "node_modules"]
+  "include": ["src/**/*", "tests/**/*", "dev/**/*"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "coverage",
+    "data",
+    "**/*.pdf",
+    "**/*.png",
+    "**/*.txt",
+    "temp*",
+    "fixtures"
+  ]
 }

@@ -1,0 +1,5 @@
+###
+curl -X POST \
+  -F "file=@/home/felipe/Documents/dta2.pdf" \
+  http://localhost:3000/upload
+// ir pelo terminal //

@@ -1,40 +1,88 @@
 import { pdf } from 'pdf-to-img';
-import { createWorker } from 'tesseract.js';
+import { createWorker, PSM } from 'tesseract.js';
 import fs from 'node:fs/promises';
-import { matchFields } from '../services/dta-service.js';
-import { sharpPNG } from '../services/image-service.js';
+import { matchFieldsWithRegex } from '../services/dta-service.js';
+import sharp from 'sharp';
+import type { Worker } from 'tesseract.js';
+import type { DtaResult } from '../types/index.ts';
 
-async function tryOCRExtraction(pdfFile: string | Buffer) {
+async function createTesseractWorker(): Promise<Worker> {
+  const worker = await createWorker('por', 1, {
+    cachePath: './tessdata',
+    cacheMethod: 'write',
+  });
+  await worker.setParameters({
+    tessedit_char_whitelist:
+      '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÀÁÃÂÇÉÊÍÓÔÕÚàáãâçéêíóôõú .:/-,()',
+    tessedit_pageseg_mode: PSM.SINGLE_BLOCK, //TESTE PSM6
+  });
+  return worker;
+}
+async function pdfToImage(pdfFile: string | Buffer): Promise<Buffer[]> {
+  const pages: Buffer[] = [];
+  const document = await pdf(pdfFile, { scale: 3 });
+  for await (const image of document) {
+    pages.push(image);
+  }
+  return pages;
+}
+async function optimizeImage(pages: Buffer[]): Promise<Buffer[]> {
+  let counter = 1;
+  const optimizedPages: Buffer[] = [];
+  for await (const page of pages) {
+    const optmizedPage = await sharp(page)
+      .greyscale()
+      .normalise()
+      .linear(1.6, 0)
+      .sharpen()
+      .png()
+      .toBuffer();
+    await fs.writeFile(`./data/output/opt-page${counter}.png`, optmizedPage);
+    optimizedPages.push(optmizedPage);
+    counter++;
+  }
+  return optimizedPages;
+}
+
+async function recognizeImage(
+  worker: Worker,
+  images: Buffer[]
+): Promise<string> {
+  let extractedText: string = '';
+  for await (const image of images) {
+    const {
+      data: { text },
+    } = await worker.recognize(image);
+    extractedText += text;
+  }
+  return extractedText;
+}
+function regexMatch(text: string): DtaResult {
+  const regexObjectResult = matchFieldsWithRegex(text);
+  return regexObjectResult;
+}
+async function tryOCRExtraction(
+  pdfFile: string | Buffer
+): Promise<{ success: boolean; data?: DtaResult }> {
   try {
-    const document = await pdf(pdfFile, { scale: 2 });
-    console.log(document);
-    const worker = await createWorker('por', 1, {
-      cachePath: './tessdata',
-      cacheMethod: 'write',
-    });
-
-    let data: string = '';
-    for await (const image of document) {
-      const ocrReadyImage = await sharpPNG(image);
-      const {
-        data: { text },
-      } = await worker.recognize(ocrReadyImage);
-
-      data += text;
-    }
-
-    const result = await matchFields(data);
+    const worker = await createTesseractWorker();
+    const images = await pdfToImage(pdfFile);
+    const optimizedImages = await optimizeImage(images);
+    const extractedText = await recognizeImage(worker, optimizedImages);
+    const ocrExtractionResult = regexMatch(extractedText);
     await worker.terminate();
-    return {
-      success: true,
-      data: result,
-    };
+    return { success: true, data: ocrExtractionResult };
   } catch (error) {
     console.error('Error extracting text with OCR', error);
-    return {
-      success: false,
-    };
+    return { success: false };
   }
 }
 
-export { tryOCRExtraction };
+export {
+  tryOCRExtraction,
+  pdfToImage,
+  optimizeImage,
+  recognizeImage,
+  createTesseractWorker,
+  regexMatch,
+};
