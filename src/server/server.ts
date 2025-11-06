@@ -1,6 +1,6 @@
 import express, { type Request, type Response } from 'express';
 import multer from 'multer';
-import { uploadController } from './upload.controller.js';
+import { uploadController } from './upload-controller.js';
 
 const PORT = 3000;
 const app = express();

@@ -1,9 +1,9 @@
-import { pdf } from 'pdf-to-img';
-import { createWorker, PSM } from 'tesseract.js';
 import fs from 'node:fs/promises';
-import { matchFieldsWithRegex } from '../services/dta-service.js';
+import { pdf } from 'pdf-to-img';
 import sharp from 'sharp';
 import type { Worker } from 'tesseract.js';
+import { createWorker, PSM } from 'tesseract.js';
+import { matchFieldsWithRegex } from '../services/regex-services.js';
 import type { DtaResult } from '../types/index.ts';
 
 async function createTesseractWorker(): Promise<Worker> {
@@ -18,6 +18,7 @@ async function createTesseractWorker(): Promise<Worker> {
   });
   return worker;
 }
+
 async function pdfToImage(pdfFile: string | Buffer): Promise<Buffer[]> {
   const pages: Buffer[] = [];
   const document = await pdf(pdfFile, { scale: 3 });
@@ -26,6 +27,7 @@ async function pdfToImage(pdfFile: string | Buffer): Promise<Buffer[]> {
   }
   return pages;
 }
+
 async function optimizeImage(pages: Buffer[]): Promise<Buffer[]> {
   let counter = 1;
   const optimizedPages: Buffer[] = [];
@@ -44,10 +46,7 @@ async function optimizeImage(pages: Buffer[]): Promise<Buffer[]> {
   return optimizedPages;
 }
 
-async function recognizeImage(
-  worker: Worker,
-  images: Buffer[]
-): Promise<string> {
+async function recognizeImage(worker: Worker, images: Buffer[]): Promise<string> {
   let extractedText: string = '';
   for await (const image of images) {
     const {
@@ -57,32 +56,35 @@ async function recognizeImage(
   }
   return extractedText;
 }
+
 function regexMatch(text: string): DtaResult {
   const regexObjectResult = matchFieldsWithRegex(text);
   return regexObjectResult;
 }
+
 async function tryOCRExtraction(
-  pdfFile: string | Buffer
+  pdfFile: string | Buffer,
 ): Promise<{ success: boolean; data?: DtaResult }> {
+  const worker = await createTesseractWorker();
   try {
-    const worker = await createTesseractWorker();
     const images = await pdfToImage(pdfFile);
     const optimizedImages = await optimizeImage(images);
-    const extractedText = await recognizeImage(worker, optimizedImages);
-    const ocrExtractionResult = regexMatch(extractedText);
-    await worker.terminate();
+    const text = await recognizeImage(worker, optimizedImages);
+    const ocrExtractionResult = regexMatch(text);
     return { success: true, data: ocrExtractionResult };
   } catch (error) {
     console.error('Error extracting text with OCR', error);
     return { success: false };
+  } finally {
+    await worker.terminate();
   }
 }
 
 export {
-  tryOCRExtraction,
-  pdfToImage,
-  optimizeImage,
-  recognizeImage,
   createTesseractWorker,
+  optimizeImage,
+  pdfToImage,
+  recognizeImage,
   regexMatch,
+  tryOCRExtraction,
 };
