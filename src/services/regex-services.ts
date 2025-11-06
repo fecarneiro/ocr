@@ -1,6 +1,9 @@
-import type { DtaResult } from '../types/types.js';
+import type { DtaResult, ValidDocType } from '../types/types.js';
 
 type DtaRegexConfig = {
+  [key in keyof DtaResult]: RegExp;
+};
+type NFeRegexConfig = {
   [key in keyof DtaResult]: RegExp;
 };
 
@@ -13,16 +16,25 @@ const dtaRegex: DtaRegexConfig = {
   destino: /(?<=destino|dest\s*ino)[^\n]*\n[\s\S]*?Unidade\s+Local\s*:\s*(\d+\s*-[^\n]+)/i,
 };
 
-function matchFieldsWithRegex(data: string): DtaResult {
-  const result: DtaResult = {
-    cnpjEmbarcador: data.match(dtaRegex.cnpjEmbarcador)?.[1] ?? null,
-    nomeBeneficiario: data.match(dtaRegex.nomeBeneficiario)?.[1] ?? null,
-    valorCarga: data.match(dtaRegex.valorCarga)?.[1] ?? null,
-    descricaoCarga: data.match(dtaRegex.descricaoCarga)?.[1] ?? null,
-    origem: data.match(dtaRegex.origem)?.[1] ?? null,
-    destino: data.match(dtaRegex.destino)?.[1] ?? null,
-  };
-  return result;
+function matchFieldsWithRegex(extractedText: string, docType: ValidDocType): DtaResult {
+  switch (docType) {
+    case 'dta': {
+      return {
+        cnpjEmbarcador: extractedText.match(dtaRegex.cnpjEmbarcador)?.[1] ?? null,
+        nomeBeneficiario: extractedText.match(dtaRegex.nomeBeneficiario)?.[1] ?? null,
+        valorCarga: extractedText.match(dtaRegex.valorCarga)?.[1] ?? null,
+        descricaoCarga: extractedText.match(dtaRegex.descricaoCarga)?.[1] ?? null,
+        origem: extractedText.match(dtaRegex.origem)?.[1] ?? null,
+        destino: extractedText.match(dtaRegex.destino)?.[1] ?? null,
+      };
+    }
+    case 'di': {
+      return {};
+    }
+    case 'nf': {
+      return {};
+    }
+  }
 }
 
 export { matchFieldsWithRegex };

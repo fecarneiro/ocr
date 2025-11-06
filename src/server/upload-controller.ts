@@ -1,18 +1,10 @@
 import path from 'node:path';
 import { tryOCRExtraction } from '../core/ocr-processor.js'; //TODO: FRAGIL: bug na ordem
 import { tryTextExtraction } from '../core/pdf-extractor.js';
+import type { ValidDocType } from '../types/types.js';
 
-async function documentProcessor(pdfFile: Buffer) {
-  if (typeof pdfFile === 'string' && path.extname(pdfFile) != '.pdf') {
-    return {
-      success: false,
-      data: null,
-      message: 'The provided file is not a PDF type.',
-    };
-  }
-
-  const pdfParse = await tryTextExtraction(pdfFile);
-
+async function uploadController(pdfFile: Buffer, docType: ValidDocType) {
+  const pdfParse = await tryTextExtraction(pdfFile, docType);
   if (pdfParse.success) {
     return {
       success: true,
@@ -22,7 +14,6 @@ async function documentProcessor(pdfFile: Buffer) {
   }
 
   const pdfOCR = await tryOCRExtraction(pdfFile);
-
   if (pdfOCR.success) {
     return {
       success: true,
@@ -38,4 +29,4 @@ async function documentProcessor(pdfFile: Buffer) {
   });
 }
 
-export { documentProcessor };
+export { uploadController };

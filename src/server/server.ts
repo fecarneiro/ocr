@@ -1,6 +1,6 @@
 import express, { type NextFunction, type Request, type Response } from 'express';
 import multer from 'multer';
-import { documentProcessor } from './upload-controller.js';
+import { uploadController } from './upload-controller.js';
 import type { ValidDocType } from '../types/types.js';
 
 const PORT = 3000;
@@ -35,7 +35,8 @@ app.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const fileBuffer: Buffer = req.file!.buffer;
-      const result = await documentProcessor(fileBuffer);
+      const docType: string = req.params.docType!;
+      const result = await uploadController(fileBuffer, docType);
       res.send(result);
     } catch (err) {
       next(err);

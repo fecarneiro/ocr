@@ -1,6 +1,6 @@
 import { PDFParse } from 'pdf-parse';
 import { matchFieldsWithRegex } from '../services/regex-services.js';
-import type { DtaResult } from '../types/types.js';
+import type { DtaResult, ValidDocType } from '../types/types.js';
 
 async function extractText(pdfFile: Buffer): Promise<string> {
   const parser = new PDFParse({ data: pdfFile });
@@ -13,15 +13,18 @@ function isValidDtaResult(dtaResult: DtaResult): boolean {
   return filledValues.length > MINIMUM_FIELDS;
 }
 
-function regexMatch(text: string): DtaResult {
-  const regexObjectResult = matchFieldsWithRegex(text);
+function regexMatch(text: string, docType: ValidDocType): DtaResult {
+  const regexObjectResult = matchFieldsWithRegex(text, docType);
   return regexObjectResult;
 }
 
-async function tryTextExtraction(pdfFile: Buffer): Promise<{ success: boolean; data?: DtaResult }> {
+async function tryTextExtraction(
+  pdfFile: Buffer,
+  docType: ValidDocType,
+): Promise<{ success: boolean; data?: DtaResult }> {
   try {
-    const text = await extractText(pdfFile);
-    const textExtractionResult = regexMatch(text);
+    const extractedText = await extractText(pdfFile);
+    const textExtractionResult = regexMatch(extractedText, docType);
     if (!isValidDtaResult(textExtractionResult)) {
       return { success: false };
     }
