@@ -1,4 +1,5 @@
 ###
 curl -X POST \
-  -F "fileMULTER=@/home/felipe/Documents/dta2.pdf" \
+  -F "file=@/home/felipe/Documents/dta2.pdf" \
   http://localhost:3000/upload
+// ir pelo terminal //
