@@ -5,6 +5,7 @@ import type { ValidDocType } from '../types/types.js';
 
 async function uploadController(pdfFile: Buffer, docType: ValidDocType) {
   const pdfParse = await tryTextExtraction(pdfFile, docType);
+  // TODO: try catch
   if (pdfParse.success) {
     return {
       success: true,
@@ -21,12 +22,11 @@ async function uploadController(pdfFile: Buffer, docType: ValidDocType) {
       message: 'Text extracted using PDF OCR',
     };
   }
-
-  return console.log({
+  return {
     success: false,
     data: null,
     message: 'Failed extracting data with both options: PDF Parse and OCR',
-  });
+  };
 }
 
 export { uploadController };

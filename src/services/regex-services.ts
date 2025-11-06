@@ -34,6 +34,8 @@ function matchFieldsWithRegex(extractedText: string, docType: ValidDocType): Dta
     case 'nf': {
       return {};
     }
+    default:
+      throw new Error(`document type ${docType} is unknown`);
   }
 }
 
