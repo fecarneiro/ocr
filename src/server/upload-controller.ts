@@ -5,7 +5,7 @@ import type { ValidDocType } from '../types/types.js';
 
 async function uploadController(pdfFile: Buffer, docType: ValidDocType) {
   const pdfParse = await tryTextExtraction(pdfFile, docType);
-  // TODO: try catch
+  // TODO: try catch?
   if (pdfParse.success) {
     return {
       success: true,

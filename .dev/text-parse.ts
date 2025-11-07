@@ -9,4 +9,4 @@ async function fn(file: string) {
   console.log(result.text);
 }
 
-await fn('./data/input/nfe1.pdf');
+await fn('./data/input/dta1.pdf');
