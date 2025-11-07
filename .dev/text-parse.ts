@@ -6,7 +6,7 @@ async function fn(file: string) {
   const parser = new PDFParse({ data: buffer });
   const result = await parser.getText();
   await parser.destroy();
-  console.log(result.text);
+  await fs.writeFile('./data/output/text.txt', result.text);
 }
 
-await fn('./data/input/dta1.pdf');
+await fn('./data/input/di1.pdf');

@@ -10,13 +10,19 @@ const dtaRegex = {
   destino: /(?<=destino|dest\s*ino)[^\n]*\n[\s\S]*?Unidade\s+Local\s*:\s*(\d+\s*-[^\n]+)/i,
 };
 
+const diRegex = {
+  cnpjEmbarcador: /CNPJ(?:\/CPF)?\s+do\s+Beneficiário\s*:\s*([^\n]+)/i,
+  nomeEmbarcador: /Nome\s+do\s+Beneficiário\s*:\s*([^\n]+)/i,
+  valorCarga: /Valor\s+da\s+Carga\s+em\s+Moeda\s+Nacional\s*:\s*([^\n]+)/i,
+  descricaoCarga: /Descrição\s+da\s+Carga\s+na\s+Fatura\s*:\s*([^\n]+)/i,
+  origem: /Recinto Aduaneiro:.*?-([A-Z\s]+)\/([A-Z]{2})/i,
+  destino: /Endereco\.+:.*?([A-Z\s]+)\s*\/\s*([A-Z]{2})/i,
+};
 const nfeRegex = {
   cnpjEmbarcador: /CNPJ(?:\/CPF)?\s+do\s+Beneficiário\s*:\s*([^\n]+)/i,
   nomeEmbarcador: /Nome\s+do\s+Beneficiário\s*:\s*([^\n]+)/i,
   valorCarga: /Valor\s+da\s+Carga\s+em\s+Moeda\s+Nacional\s*:\s*([^\n]+)/i,
   descricaoCarga: /Descrição\s+da\s+Carga\s+na\s+Fatura\s*:\s*([^\n]+)/i,
-  origem: /(?<=origem|ori\s*gem)[^\n]*\n[\s\S]*?Unidade\s+Local\s*:\s*(\d+\s*-[^\n]+)/i,
-  destino: /(?<=destino|dest\s*ino)[^\n]*\n[\s\S]*?Unidade\s+Local\s*:\s*(\d+\s*-[^\n]+)/i,
 };
 
 function matchFieldsWithRegex(extractedText: string, docType: ValidDocType) {
@@ -32,10 +38,24 @@ function matchFieldsWithRegex(extractedText: string, docType: ValidDocType) {
         destino: extractedText.match(dtaRegex.destino)?.[1] ?? null,
       };
     }
-    case 'nf': {
-      return {};
-    }
     case 'di': {
+      const origemMatch = extractedText.match(diRegex.origem);
+      const origem =
+        origemMatch && origemMatch[1] && origemMatch[2]
+          ? `${origemMatch[1].trim()}/${origemMatch[2]}`
+          : null;
+
+      const destinoMatch = extractedText.match(diRegex.destino);
+      const destino =
+        destinoMatch && destinoMatch[1] && destinoMatch[2]
+          ? `${destinoMatch[1].trim()}/${destinoMatch[2]}`
+          : null;
+      return {
+        origem,
+        destino,
+      };
+    }
+    case 'nf': {
       return {};
     }
     default:
