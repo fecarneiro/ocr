@@ -9,21 +9,12 @@ const dtaRegex = {
   origem: /(?<=origem|ori\s*gem)[^\n]*\n[\s\S]*?Unidade\s+Local\s*:\s*(\d+\s*-[^\n]+)/i,
   destino: /(?<=destino|dest\s*ino)[^\n]*\n[\s\S]*?Unidade\s+Local\s*:\s*(\d+\s*-[^\n]+)/i,
 };
-
 const diRegex = {
-  cnpjEmbarcador: /CNPJ(?:\/CPF)?\s+do\s+Beneficiário\s*:\s*([^\n]+)/i,
-  nomeEmbarcador: /Nome\s+do\s+Beneficiário\s*:\s*([^\n]+)/i,
-  valorCarga: /Valor\s+da\s+Carga\s+em\s+Moeda\s+Nacional\s*:\s*([^\n]+)/i,
-  descricaoCarga: /Descrição\s+da\s+Carga\s+na\s+Fatura\s*:\s*([^\n]+)/i,
+  nomeEmbarcador: /Adquirente\s+da\s+Mercadoria\s*\n\s*CNPJ:\s*[\d.\/-]+\s+(.+)/i,
   origem: /Recinto Aduaneiro:.*?-([A-Z\s]+)\/([A-Z]{2})/i,
   destino: /Endereco\.+:.*?([A-Z\s]+)\s*\/\s*([A-Z]{2})/i,
 };
-const nfeRegex = {
-  cnpjEmbarcador: /CNPJ(?:\/CPF)?\s+do\s+Beneficiário\s*:\s*([^\n]+)/i,
-  nomeEmbarcador: /Nome\s+do\s+Beneficiário\s*:\s*([^\n]+)/i,
-  valorCarga: /Valor\s+da\s+Carga\s+em\s+Moeda\s+Nacional\s*:\s*([^\n]+)/i,
-  descricaoCarga: /Descrição\s+da\s+Carga\s+na\s+Fatura\s*:\s*([^\n]+)/i,
-};
+const nfeRegex = {};
 
 function matchFieldsWithRegex(extractedText: string, docType: ValidDocType) {
   switch (docType) {
@@ -39,6 +30,7 @@ function matchFieldsWithRegex(extractedText: string, docType: ValidDocType) {
       };
     }
     case 'di': {
+      const nomeEmbarcador = extractedText.match(diRegex.nomeEmbarcador)?.[1] ?? null;
       const origemMatch = extractedText.match(diRegex.origem);
       const origem =
         origemMatch && origemMatch[1] && origemMatch[2]
@@ -51,6 +43,7 @@ function matchFieldsWithRegex(extractedText: string, docType: ValidDocType) {
           ? `${destinoMatch[1].trim()}/${destinoMatch[2]}`
           : null;
       return {
+        nomeEmbarcador,
         origem,
         destino,
       };
