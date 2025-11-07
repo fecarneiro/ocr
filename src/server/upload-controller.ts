@@ -14,7 +14,7 @@ async function uploadController(pdfFile: Buffer, docType: ValidDocType) {
     };
   }
 
-  const pdfOCR = await tryOCRExtraction(pdfFile);
+  const pdfOCR = await tryOCRExtraction(pdfFile, docType);
   if (pdfOCR.success) {
     return {
       success: true,

@@ -10,11 +10,14 @@ const dtaRegex = {
   destino: /(?<=destino|dest\s*ino)[^\n]*\n[\s\S]*?Unidade\s+Local\s*:\s*(\d+\s*-[^\n]+)/i,
 };
 const diRegex = {
-  nomeEmbarcador: /Adquirente\s+da\s+Mercadoria\s*\n\s*CNPJ:\s*[\d.\/-]+\s+(.+)/i,
-  origem: /Recinto Aduaneiro:.*?-([A-Z\s]+)\/([A-Z]{2})/i,
+  nomeEmbarcador: /Adquirente\s+da\s+Mercadoria\s*\n\s*CNPJ:\s*[\d./-]+\s+(.+)/i,
+  origem: /Recinto\s+Aduaneiro:.*?-([A-Z\s]+)\/([A-Z]{2})/i,
   destino: /Endereco\.+:.*?([A-Z\s]+)\s*\/\s*([A-Z]{2})/i,
 };
-const nfeRegex = {};
+const nfeRegex = {
+  dataTransporte: /Data\s+saída\s+da\s+nota\s*([^\n]+)/i,
+  valorCarga: /Valor\s+total\s+da\s+nota\s*([^\n]+)/i,
+};
 
 function matchFieldsWithRegex(extractedText: string, docType: ValidDocType) {
   switch (docType) {
@@ -48,8 +51,10 @@ function matchFieldsWithRegex(extractedText: string, docType: ValidDocType) {
         destino,
       };
     }
-    case 'nf': {
-      return {};
+    case 'nfe': {
+      return {
+        valorCarga: extractedText.match(nfeRegex.valorCarga)?.[1],
+      };
     }
     default:
       throw new Error(`document type ${docType} is unknown`);

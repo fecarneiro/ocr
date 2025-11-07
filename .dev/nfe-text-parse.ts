@@ -9,11 +9,11 @@ async function text(file: string) {
   await parser.destroy();
   await fs.writeFile('./data/output/text.txt', result.text);
 }
-// await text('./data/input/di1.pdf');
+await text('./data/input/nfe1.pdf');
 
 async function regex(file: string) {
   const text = await fs.readFile(file, 'utf-8');
-  const regex = matchFieldsWithRegex(text, 'di');
+  const regex = matchFieldsWithRegex(text, 'nfe');
   console.log(regex);
 }
 await regex('./data/output/text.txt');

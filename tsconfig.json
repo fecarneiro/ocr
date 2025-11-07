@@ -14,7 +14,7 @@
     "isolatedModules": true,
     "verbatimModuleSyntax": true
   },
-  "include": ["src/**/*", "tests/**/*", "dev/**/*", ".dev/**/*"],
+  "include": ["src/**/*", "tests/**/*"],
   "exclude": [
     "node_modules",
     "dist",
@@ -24,6 +24,8 @@
     "**/*.png",
     "**/*.txt",
     "temp*",
-    "fixtures"
+    "fixtures",
+    "dev/**/*",
+    ".dev/**/*"
   ]
 }

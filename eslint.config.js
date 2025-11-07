@@ -4,6 +4,7 @@ import tseslint from 'typescript-eslint';
 export default [
   {
     ignores: [
+      '.dev/',
       'dist/**',
       'coverage/**',
       'node_modules/**',
