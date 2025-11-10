@@ -2,7 +2,7 @@ import { PDFParse } from 'pdf-parse';
 import { matchFieldsWithRegex } from '../services/regex-services.js';
 import type { DtaResult, ValidDocType } from '../types/types.js';
 
-async function extractText(pdfFile: Buffer): Promise<string> {
+async function extractText(pdfFile: string | Buffer): Promise<string> {
   const parser = new PDFParse({ data: pdfFile });
   const result = (await parser.getText()).text;
   await parser.destroy();
@@ -21,7 +21,7 @@ function regexMatch(text: string, docType: ValidDocType): DtaResult {
 }
 
 async function tryTextExtraction(
-  pdfFile: Buffer,
+  pdfFile: string | Buffer,
   docType: ValidDocType,
 ): Promise<{ success: boolean; data?: DtaResult }> {
   try {

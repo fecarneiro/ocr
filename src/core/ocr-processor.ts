@@ -63,7 +63,7 @@ function regexMatch(text: string, docType: ValidDocType) {
 }
 // TODO: pdf-parse: getScreenshot — Render Pages as PNG (testar no lugar de pdf2img)
 async function tryOCRExtraction(
-  pdfFile: Buffer,
+  pdfFile: string | Buffer,
   docType: ValidDocType,
 ): Promise<{ success: boolean; data?: DtaResult }> {
   const worker = await createTesseractWorker();
@@ -71,6 +71,7 @@ async function tryOCRExtraction(
     const images = await pdfToImage(pdfFile);
     const optimizedImages = await optimizeImage(images);
     const text = await recognizeImage(worker, optimizedImages);
+    console.log(text);
     const ocrExtractionResult = regexMatch(text, docType);
     return { success: true, data: ocrExtractionResult };
   } catch (error) {

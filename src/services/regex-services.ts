@@ -34,7 +34,7 @@ function matchFieldsWithRegex(extractedText: string, docType: ValidDocType) {
     }
     case 'di': {
       const nomeEmbarcador = extractedText.match(diRegex.nomeEmbarcador)?.[1] ?? null;
-      const origemMatch = extractedText.match(diRegex.origem);
+      const origemMatch = extractedText.match(diRegex.origem) ?? null;
       const origem =
         origemMatch && origemMatch[1] && origemMatch[2]
           ? `${origemMatch[1].trim()}/${origemMatch[2]}`
