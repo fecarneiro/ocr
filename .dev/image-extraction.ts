@@ -4,6 +4,7 @@ import {
   recognizeImage,
   createTesseractWorker,
 } from '../src/core/ocr-processor.js';
+import fs from 'node:fs/promises';
 
 async function fn(pdfFile: string) {
   try {
@@ -13,11 +14,11 @@ async function fn(pdfFile: string) {
     const extractedText = await recognizeImage(worker, optimizedImages);
     // const ocrExtractionResult = regexMatch(extractedText);
     await worker.terminate();
-    console.log(extractedText);
+    await fs.writeFile('extracted.txt', extractedText);
   } catch (error) {
     console.error(error);
   }
   return;
 }
-//testando com scale 4
+
 fn('./data/input/nfe1.pdf');
