@@ -2,8 +2,9 @@ import { Ollama } from 'ollama';
 import fs from 'node:fs/promises';
 import 'dotenv/config';
 
-const filePath = './data/output/text.txt';
-const text = await fs.readFile(filePath, 'utf-8');
+const filePath = './data/input/nfe1.pdf';
+const pdfBuffer = await fs.readFile(filePath);
+const base64Pdf = await pdfBuffer.toString('base64');
 
 const ollama = new Ollama({
   host: 'https://ollama.com',
@@ -15,7 +16,7 @@ const response = await ollama.chat({
   messages: [
     {
       role: 'user',
-      content: `Qual nome do importador, CNPJ do importador, cidade/uf do recinto aduaneiro, cidade/uf do destino, nome da mercadoria. Para o documento:${text}`,
+      content: `Qual origem, destino, nome de embarcador, cnpj embarcador, nomes das mercadorias, valor total da nota. responda apenas estas informacoes e em JSON: ${base64Pdf}`,
     },
   ],
   stream: true,
