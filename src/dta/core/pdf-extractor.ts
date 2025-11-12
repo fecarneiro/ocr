@@ -1,6 +1,6 @@
 import { PDFParse } from 'pdf-parse';
+import type { DtaResult, ValidDocType } from '../../server/models/types.js';
 import { matchFieldsWithRegex } from '../services/regex-services.js';
-import type { DtaResult, ValidDocType } from '../types/types.js';
 
 async function extractText(pdfFile: string | Buffer): Promise<string> {
   const parser = new PDFParse({ data: pdfFile });

@@ -1,4 +1,4 @@
-import type { GPTModel } from './schemas.js';
+import type { GPTModel } from '../server/models/schemas.js';
 
 export const gptModel: GPTModel = 'gpt-4o-mini';
 export const diFile = 'data/di.pdf';

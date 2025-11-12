@@ -1,8 +1,8 @@
 import fs from 'node:fs/promises';
 import OpenAI from 'openai';
 import { zodTextFormat } from 'openai/helpers/zod';
+import { DISchema, type GPTModel } from '../server/models/schemas.js';
 import { diFile, gptModel, promptDI } from './configs.js';
-import { DISchema, type GPTModel } from './schemas.js';
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 console.time('');

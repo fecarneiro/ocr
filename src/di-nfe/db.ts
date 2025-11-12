@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
-import type { ExtractionResult, GPTModel } from './schemas.js';
-import { Extraction } from './schemas.js';
+import type { ExtractionResult, GPTModel } from '../server/models/schemas.js';
+import { Extraction } from '../server/models/schemas.js';
 const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable inside .env');

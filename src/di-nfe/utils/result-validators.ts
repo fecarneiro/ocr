@@ -1,4 +1,4 @@
-import type { DI, ExtractionResult, NFe } from '../schemas.js';
+import type { DI, ExtractionResult, NFe } from '../../server/models/schemas.js';
 
 export function createResult(diResult: DI, nfeResult: NFe): ExtractionResult {
   return {

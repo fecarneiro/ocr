@@ -3,8 +3,8 @@ import { pdf } from 'pdf-to-img';
 import sharp from 'sharp';
 import type { Worker } from 'tesseract.js';
 import { createWorker, PSM } from 'tesseract.js';
+import type { DtaResult, ValidDocType } from '../../server/models/types.js';
 import { matchFieldsWithRegex } from '../services/regex-services.js';
-import type { DtaResult, ValidDocType } from '../types/types.js';
 
 async function createTesseractWorker(): Promise<Worker> {
   const worker = await createWorker('por', 1, {
