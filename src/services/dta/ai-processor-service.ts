@@ -1,13 +1,12 @@
 import fs from 'node:fs/promises';
 import OpenAI from 'openai';
 import { zodTextFormat } from 'openai/helpers/zod';
-import { DISchema, type GPTModel } from '../server/models/schemas.js';
-import { diFile, gptModel, promptDI } from './configs.js';
+import { DISchema } from '../../models/schemas.js';
+import type { GPTModel } from '../../models/types.js';
+
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-export async function diOpenai(file: string | Buffer, gptModel: GPTModel) {
-  // Leia o PDF e converta para Base64
-
+export async function aiProcessor(file: Buffer, gptModel: GPTModel) {
   const pdfBuffer = await fs.readFile(file);
   const base64String = pdfBuffer.toString('base64');
   const response = await openai.responses.parse({

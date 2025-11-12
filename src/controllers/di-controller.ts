@@ -2,7 +2,7 @@ import { type Request, type Response } from 'express';
 import { ocrProcessor } from '../services/dta/ocr-processor-service.js';
 import { textProcessor } from '../services/dta/text-processor-service.js';
 
-export async function dtaController(req: Request, res: Response) {
+export async function diController(req: Request, res: Response) {
   if (!req.file) {
     return { success: false, message: 'Missing file' };
   }

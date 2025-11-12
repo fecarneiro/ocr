@@ -13,10 +13,3 @@ export function createResult(diResult: DI, nfeResult: NFe): ExtractionResult {
     valorCarga: nfeResult.valorCarga,
   };
 }
-
-export function resultValidation(output: ExtractionResult, fullResult: ExtractionResult) {
-  if (JSON.stringify(output) !== JSON.stringify(fullResult)) {
-    return { success: false };
-  }
-  return { success: true };
-}
