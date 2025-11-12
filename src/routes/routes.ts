@@ -7,3 +7,5 @@ const upload = multer({ storage: storage });
 const router = Router();
 
 router.post('/dta', upload.single('dta'), dtaController);
+
+export default router;
