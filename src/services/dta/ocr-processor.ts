@@ -18,9 +18,9 @@ async function createTesseractWorker(): Promise<Worker> {
   return worker;
 }
 
-async function pdfToImage(pdfFile: string | Buffer): Promise<Buffer[]> {
+async function pdfToImage(fileBuffer: string | Buffer): Promise<Buffer[]> {
   const pages: Buffer[] = [];
-  const document = await pdf(pdfFile, { scale: 3 });
+  const document = await pdf(fileBuffer, { scale: 3 });
   for await (const image of document) {
     pages.push(image);
   }
@@ -62,11 +62,11 @@ function regexMatch(text: string) {
 }
 
 export async function ocrProcessor(
-  pdfFile: string | Buffer,
+  fileBuffer: string | Buffer,
 ): Promise<{ success: boolean; data?: DtaResult }> {
   const worker = await createTesseractWorker();
   try {
-    const images = await pdfToImage(pdfFile);
+    const images = await pdfToImage(fileBuffer);
     const optimizedImages = await optimizeImage(images);
     const text = await recognizeImage(worker, optimizedImages);
     console.log(text);

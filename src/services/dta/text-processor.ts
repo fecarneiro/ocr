@@ -2,8 +2,8 @@ import { PDFParse } from 'pdf-parse';
 import type { DtaResult } from '../../models/types.js';
 import { matchFieldsWithRegex } from './regex-services.js';
 
-async function extractText(pdfFile: string | Buffer): Promise<string> {
-  const parser = new PDFParse({ data: pdfFile });
+async function extractText(file: string | Buffer): Promise<string> {
+  const parser = new PDFParse({ data: file });
   const result = (await parser.getText()).text;
   await parser.destroy();
   return result;
@@ -20,11 +20,9 @@ function regexMatch(text: string): DtaResult {
   return regexObjectResult;
 }
 
-export async function textProcessor(
-  pdfFile: string | Buffer,
-): Promise<{ success: boolean; data?: DtaResult }> {
+export async function textProcessor(file: Buffer): Promise<{ success: boolean; data?: DtaResult }> {
   try {
-    const extractedText = await extractText(pdfFile);
+    const extractedText = await extractText(file);
     const textExtractionResult = regexMatch(extractedText);
     if (!isValidDtaResult(textExtractionResult)) {
       return { success: false };
