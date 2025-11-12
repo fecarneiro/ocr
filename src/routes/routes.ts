@@ -9,5 +9,6 @@ const router = Router();
 
 router.post('/dta', upload.single('dta'), dtaController);
 router.post('/di', upload.single('di'), diController);
+router.post('/nfe', upload.single('nfe'), diController);
 
 export default router;

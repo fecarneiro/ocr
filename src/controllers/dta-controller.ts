@@ -15,7 +15,7 @@ export async function dtaController(req: Request, res: Response) {
       res.status(200).json({
         success: true,
         data: extractedText.data,
-        message: 'Text extracted using PDF Parse',
+        message: 'Text extracted using AI',
       });
     }
 
