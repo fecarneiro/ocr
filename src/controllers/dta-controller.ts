@@ -1,6 +1,6 @@
 import { type Request, type Response } from 'express';
-import { ocrProcessor } from '../services/dta/ocr-processor-service.js';
-import { textProcessor } from '../services/dta/text-processor-service.js';
+import { ocrProcessor } from '../services/ocr-processor-service.js';
+import { textProcessor } from '../services/text-processor-service.js';
 
 export async function dtaController(req: Request, res: Response) {
   if (!req.file) {

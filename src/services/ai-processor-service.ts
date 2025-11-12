@@ -1,4 +1,3 @@
-import fs from 'node:fs/promises';
 import OpenAI from 'openai';
 import { zodTextFormat } from 'openai/helpers/zod';
 import type { ZodObject } from 'zod';
@@ -6,14 +5,11 @@ import type { ZodObject } from 'zod';
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function aiProcessor(
-  fileBuffer: Buffer,
+  fileBase64: string,
   aiModel: string,
   prompt: string,
   documentSchema: ZodObject,
 ) {
-  const pdfBuffer = await fs.readFile(fileBuffer);
-  const base64String = pdfBuffer.toString('base64');
-
   const response = await openai.responses.parse({
     model: aiModel,
     input: [
@@ -23,8 +19,8 @@ export async function aiProcessor(
         content: [
           {
             type: 'input_file',
-            fileBuffername: 'di1.pdf',
-            fileBuffer_data: `data:application/pdf;base64,${base64String}`,
+            filename: 'document.pdf',
+            file_data: `data:application/pdf;base64,${fileBase64}`,
           },
           {
             type: 'input_text',

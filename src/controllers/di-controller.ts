@@ -1,6 +1,6 @@
 import { type Request, type Response } from 'express';
 import { DISchema } from '../models/schemas.js';
-import { aiProcessor } from '../services/dta/ai-processor-service.js';
+import { aiProcessor } from '../services/ai-processor-service.js';
 import { aiModel, promptDI } from '../utils/ai-settings.js';
 
 export async function diController(req: Request, res: Response) {
@@ -9,8 +9,11 @@ export async function diController(req: Request, res: Response) {
   }
 
   try {
+    // const pdfBuffer = await fs.readFile(req.file.buffer);
+    // const fileBase64 = pdfBuffer.toString('base64');
     const fileBuffer = req.file.buffer;
-    const extractedAi = await aiProcessor(fileBuffer, aiModel, promptDI, DISchema);
+    const fileBase64 = fileBuffer.toString('base64');
+    const extractedAi = await aiProcessor(fileBase64, aiModel, promptDI, DISchema);
 
     if (!extractedAi) {
       return res.status(400).json({
