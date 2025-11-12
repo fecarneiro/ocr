@@ -60,8 +60,8 @@ function regexMatch(text: string) {
   const regexObjectResult = matchFieldsWithRegex(text);
   return regexObjectResult;
 }
-// TODO: pdf-parse: getScreenshot — Render Pages as PNG (testar no lugar de pdf2img)
-async function tryOCRExtraction(
+
+export async function ocrProcessor(
   pdfFile: string | Buffer,
 ): Promise<{ success: boolean; data?: DtaResult }> {
   const worker = await createTesseractWorker();
@@ -79,12 +79,3 @@ async function tryOCRExtraction(
     await worker.terminate();
   }
 }
-
-export {
-  createTesseractWorker,
-  optimizeImage,
-  pdfToImage,
-  recognizeImage,
-  regexMatch,
-  tryOCRExtraction,
-};

@@ -1,5 +1,5 @@
 import express, { type NextFunction, type Request, type Response } from 'express';
-import config from './server/config/env.js';
+import config from './config/env.js';
 
 const app = express();
 app.use(express.json());
