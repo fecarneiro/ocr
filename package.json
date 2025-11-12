@@ -4,7 +4,7 @@
   "description": "",
   "main": "ocr.js",
   "scripts": {
-    "dev": "tsx watch src/server/server.ts",
+    "dev": "tsx watch src/server.ts",
     "regex": "tsx .dev/text-parse.ts",
     "typecheck": "tsc",
     "typecheck:watch": "tsc --watch",
