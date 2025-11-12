@@ -2,13 +2,12 @@ import fs from 'node:fs/promises';
 import OpenAI from 'openai';
 import { zodTextFormat } from 'openai/helpers/zod';
 import type { ZodObject } from 'zod';
-import type { GPTModel } from '../../models/types.js';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function aiProcessor(
   fileBuffer: Buffer,
-  gptModel: GPTModel,
+  aiModel: string,
   prompt: string,
   documentSchema: ZodObject,
 ) {
@@ -16,7 +15,7 @@ export async function aiProcessor(
   const base64String = pdfBuffer.toString('base64');
 
   const response = await openai.responses.parse({
-    model: gptModel,
+    model: aiModel,
     input: [
       { role: 'system', content: prompt },
       {
@@ -40,6 +39,5 @@ export async function aiProcessor(
   });
 
   const output = response.output_parsed;
-
   return output;
 }

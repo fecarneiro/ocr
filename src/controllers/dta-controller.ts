@@ -8,8 +8,6 @@ export async function dtaController(req: Request, res: Response) {
   }
 
   try {
-    console.log('123');
-
     const fileBuffer = req.file.buffer;
     const extractedText = await textProcessor(fileBuffer);
 
