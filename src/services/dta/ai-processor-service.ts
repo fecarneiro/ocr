@@ -1,12 +1,17 @@
 import fs from 'node:fs/promises';
 import OpenAI from 'openai';
 import { zodTextFormat } from 'openai/helpers/zod';
-import { DISchema } from '../../models/schemas.js';
+import type { ZodObject } from 'zod';
 import type { GPTModel } from '../../models/types.js';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-export async function aiProcessor(fileBuffer: Buffer, gptModel: GPTModel, prompt: string) {
+export async function aiProcessor(
+  fileBuffer: Buffer,
+  gptModel: GPTModel,
+  prompt: string,
+  documentSchema: ZodObject,
+) {
   const pdfBuffer = await fs.readFile(fileBuffer);
   const base64String = pdfBuffer.toString('base64');
 
@@ -30,7 +35,7 @@ export async function aiProcessor(fileBuffer: Buffer, gptModel: GPTModel, prompt
       },
     ],
     text: {
-      format: zodTextFormat(DISchema, 'output'),
+      format: zodTextFormat(documentSchema, 'output'),
     },
   });
 
