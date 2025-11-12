@@ -1,5 +1,3 @@
-export type ValidDocType = 'dta' | 'di' | 'nfe';
-
 export type GPTModel =
   | 'gpt-4o'
   | 'gpt-4o-mini'

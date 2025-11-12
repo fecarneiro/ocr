@@ -1,6 +1,6 @@
 import { PDFParse } from 'pdf-parse';
-import type { DtaResult, ValidDocType } from '../../server/models/types.js';
-import { matchFieldsWithRegex } from '../services/regex-services.js';
+import type { DtaResult, ValidDocType } from '../../models/types.js';
+import { matchFieldsWithRegex } from './regex-services.js';
 
 async function extractText(pdfFile: string | Buffer): Promise<string> {
   const parser = new PDFParse({ data: pdfFile });
@@ -20,7 +20,7 @@ function regexMatch(text: string, docType: ValidDocType): DtaResult {
   return regexObjectResult;
 }
 
-async function tryTextExtraction(
+async function textExtraction(
   pdfFile: string | Buffer,
   docType: ValidDocType,
 ): Promise<{ success: boolean; data?: DtaResult }> {
@@ -38,4 +38,4 @@ async function tryTextExtraction(
   }
 }
 
-export { extractText, isValidDtaResult, tryTextExtraction };
+export { extractText, isValidDtaResult, textExtraction };

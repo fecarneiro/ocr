@@ -1,10 +1,9 @@
 import fs from 'node:fs/promises';
 import { pdf } from 'pdf-to-img';
 import sharp from 'sharp';
-import type { Worker } from 'tesseract.js';
-import { createWorker, PSM } from 'tesseract.js';
-import type { DtaResult, ValidDocType } from '../../server/models/types.js';
-import { matchFieldsWithRegex } from '../services/regex-services.js';
+import { createWorker, PSM, type Worker } from 'tesseract.js';
+import type { DtaResult } from '../../models/types.js';
+import { matchFieldsWithRegex } from './regex-services.js';
 
 async function createTesseractWorker(): Promise<Worker> {
   const worker = await createWorker('por', 1, {
@@ -57,14 +56,13 @@ async function recognizeImage(worker: Worker, images: Buffer[]): Promise<string>
   return extractedText;
 }
 
-function regexMatch(text: string, docType: ValidDocType) {
-  const regexObjectResult = matchFieldsWithRegex(text, docType);
+function regexMatch(text: string) {
+  const regexObjectResult = matchFieldsWithRegex(text);
   return regexObjectResult;
 }
 // TODO: pdf-parse: getScreenshot — Render Pages as PNG (testar no lugar de pdf2img)
 async function tryOCRExtraction(
   pdfFile: string | Buffer,
-  docType: ValidDocType,
 ): Promise<{ success: boolean; data?: DtaResult }> {
   const worker = await createTesseractWorker();
   try {
@@ -72,7 +70,7 @@ async function tryOCRExtraction(
     const optimizedImages = await optimizeImage(images);
     const text = await recognizeImage(worker, optimizedImages);
     console.log(text);
-    const ocrExtractionResult = regexMatch(text, docType);
+    const ocrExtractionResult = regexMatch(text);
     return { success: true, data: ocrExtractionResult };
   } catch (error) {
     console.error('Error extracting text with OCR', error);
