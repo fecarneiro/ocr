@@ -1,4 +1,4 @@
-import type { DtaResult, ValidDocType } from '../types/types.js';
+import type { ValidDocType } from '../types/types.js';
 
 const dtaRegex = {
   dataTransporte: /solicitada\s+em\s+(\d{2}\/\d{2}\/\d{4})/i,

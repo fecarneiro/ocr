@@ -2,7 +2,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { tryOCRExtraction } from './core/ocr-processor.js'; //TODO: FRAGIL: bug na ordem
 import { tryTextExtraction } from './core/pdf-extractor.js';
-import type { ValidDocType } from './types/types.js';
+import type { ValidDocType } from './dta/types/types.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
