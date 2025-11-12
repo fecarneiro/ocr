@@ -1,10 +1,3 @@
-import type { GPTModel } from '../models/types.js';
-
-export const gptModel: GPTModel = 'gpt-4o-mini';
-export const diFile = 'data/di.pdf';
-export const nfeFile = 'data/nfe.pdf';
-
-// src/configs.ts
 export const promptNFe = `
 Você é um especialista em extração de dados de Notas Fiscais Eletrônicas (NF-e) brasileiras.
 

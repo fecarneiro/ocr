@@ -6,7 +6,6 @@ import { gptModel, nfeFile, promptNFe } from './configs.js';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-console.time('');
 export async function nfeOpenai(file: string | Buffer, gptModel: GPTModel) {
   const pdfBuffer = await fs.readFile(file);
   const base64String = pdfBuffer.toString('base64');

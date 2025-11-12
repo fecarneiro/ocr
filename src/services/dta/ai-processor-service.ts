@@ -6,20 +6,21 @@ import type { GPTModel } from '../../models/types.js';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-export async function aiProcessor(file: Buffer, gptModel: GPTModel) {
-  const pdfBuffer = await fs.readFile(file);
+export async function aiProcessor(fileBuffer: Buffer, gptModel: GPTModel, prompt: string) {
+  const pdfBuffer = await fs.readFile(fileBuffer);
   const base64String = pdfBuffer.toString('base64');
+
   const response = await openai.responses.parse({
     model: gptModel,
     input: [
-      { role: 'system', content: promptDI },
+      { role: 'system', content: prompt },
       {
         role: 'user',
         content: [
           {
             type: 'input_file',
-            filename: 'di1.pdf',
-            file_data: `data:application/pdf;base64,${base64String}`,
+            fileBuffername: 'di1.pdf',
+            fileBuffer_data: `data:application/pdf;base64,${base64String}`,
           },
           {
             type: 'input_text',
@@ -36,8 +37,4 @@ export async function aiProcessor(file: Buffer, gptModel: GPTModel) {
   const output = response.output_parsed;
 
   return output;
-}
-
-if (require.main === module) {
-  diOpenai(diFile, gptModel).then((output) => console.log(output));
 }
