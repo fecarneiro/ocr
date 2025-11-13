@@ -6,13 +6,13 @@ export const NFeSchema = z.object({
 });
 
 export const DISchema = z.object({
-  cnpjImportador: z.string().nullable(),
-  nomeImportador: z.string().nullable(),
-  origemCidade: z.string().nullable(),
-  origemEstado: z.string().nullable(),
-  destinoCidade: z.string().nullable(),
-  destinoEstado: z.string().nullable(),
-  nomeMercadoria: z.string().nullable(),
+  cnpjImportador: z.string(),
+  nomeImportador: z.string(),
+  origemCidade: z.string(),
+  origemEstado: z.string(),
+  destinoCidade: z.string(),
+  destinoEstado: z.string(),
+  nomeMercadoria: z.string(),
 });
 
 export type NFe = z.infer<typeof NFeSchema>;
