@@ -5,7 +5,7 @@ import { aiModel, promptNFe } from '../utils/ai-settings.js';
 
 export async function nfeController(req: Request, res: Response) {
   if (!req.file) {
-    return { success: false, message: 'Missing file' };
+    return res.status(400).json({ success: false, message: 'Missing file' });
   }
 
   try {
@@ -23,14 +23,14 @@ export async function nfeController(req: Request, res: Response) {
     res.status(200).json({
       success: true,
       data: extractedAi,
-      message: 'Text extracted using PDF Parse',
+      message: 'Text extracted using AI',
     });
   } catch (error) {
     console.error(error);
-    return {
+    return res.status(500).json({
       success: false,
       data: null,
       message: 'Unexpected error during extraction',
-    };
+    });
   }
 }

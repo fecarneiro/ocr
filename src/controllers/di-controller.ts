@@ -5,12 +5,13 @@ import { aiModel, promptDI } from '../utils/ai-settings.js';
 
 export async function diController(req: Request, res: Response) {
   if (!req.file) {
-    return { success: false, message: 'Missing file' };
+    return res.status(400).json({ success: false, message: 'Missing file' });
   }
 
   try {
     const fileBuffer = req.file.buffer;
     const fileBase64 = fileBuffer.toString('base64');
+
     const extractedAi = await aiProcessor(fileBase64, aiModel, promptDI, DISchema);
 
     if (!extractedAi) {
@@ -27,10 +28,10 @@ export async function diController(req: Request, res: Response) {
     });
   } catch (error) {
     console.error(error);
-    return {
+    return res.status(500).json({
       success: false,
       data: null,
       message: 'Unexpected error during extraction',
-    };
+    });
   }
 }

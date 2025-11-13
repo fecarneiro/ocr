@@ -1,4 +1,4 @@
-export const aiModel = 'gpt-4.1-mini';
+export const aiModel = 'gpt-4o-mini';
 
 export const promptNFe = `
 Você é um especialista em extração de dados de Notas Fiscais Eletrônicas (NF-e) brasileiras.
