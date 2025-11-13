@@ -1,5 +1,5 @@
 import { type Request, type Response } from 'express';
-import { NFeSchema } from '../models/schemas.js';
+import { NFeSchema } from '../models/nfe.js';
 import { aiProcessor } from '../services/ai-processor-service.js';
 import { aiModel, promptNFe } from '../utils/ai-settings.js';
 

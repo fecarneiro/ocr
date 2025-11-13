@@ -1,5 +1,5 @@
 import { PDFParse } from 'pdf-parse';
-import type { DtaResult } from '../models/types.js';
+import type { DTA } from '../models/dta.js';
 import { matchFieldsWithRegex } from '../utils/regex-match.js';
 
 async function extractText(file: string | Buffer): Promise<string> {
@@ -9,18 +9,18 @@ async function extractText(file: string | Buffer): Promise<string> {
   return result;
 }
 
-function isValidDtaResult(dtaResult: DtaResult): boolean {
+function isValidDtaResult(dtaResult: DTA): boolean {
   const MINIMUM_FIELDS = 1;
   const filledValues = Object.values(dtaResult).filter((value) => value != null);
   return filledValues.length > MINIMUM_FIELDS;
 }
 
-function regexMatch(text: string): DtaResult {
+function regexMatch(text: string): DTA {
   const regexObjectResult = matchFieldsWithRegex(text);
   return regexObjectResult;
 }
 
-export async function textProcessor(file: Buffer): Promise<{ success: boolean; data?: DtaResult }> {
+export async function textProcessor(file: Buffer): Promise<{ success: boolean; data?: DTA }> {
   try {
     const extractedText = await extractText(file);
     const textExtractionResult = regexMatch(extractedText);

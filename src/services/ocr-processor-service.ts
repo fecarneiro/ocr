@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import { pdf } from 'pdf-to-img';
 import sharp from 'sharp';
 import { createWorker, PSM, type Worker } from 'tesseract.js';
-import type { DtaResult } from '../models/types.js';
+import type { DTA } from '../models/dta.js';
 import { matchFieldsWithRegex } from '../utils/regex-match.js';
 
 async function createTesseractWorker(): Promise<Worker> {
@@ -13,7 +13,7 @@ async function createTesseractWorker(): Promise<Worker> {
   await worker.setParameters({
     tessedit_char_whitelist:
       '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÀÁÃÂÇÉÊÍÓÔÕÚàáãâçéêíóôõú .:/-,()',
-    tessedit_pageseg_mode: PSM.SINGLE_BLOCK, //TESTE PSM6!!
+    tessedit_pageseg_mode: PSM.SINGLE_BLOCK,
   });
   return worker;
 }
@@ -63,7 +63,7 @@ function regexMatch(text: string) {
 
 export async function ocrProcessor(
   fileBuffer: string | Buffer,
-): Promise<{ success: boolean; data?: DtaResult }> {
+): Promise<{ success: boolean; data?: DTA }> {
   const worker = await createTesseractWorker();
   try {
     const images = await pdfToImage(fileBuffer);

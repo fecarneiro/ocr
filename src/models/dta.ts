@@ -1,4 +1,4 @@
-export interface DtaResult {
+export interface DTA {
   dataTransporte: string | null;
   cnpjEmbarcador: string | null;
   nomeEmbarcador: string | null;

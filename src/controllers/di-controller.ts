@@ -1,7 +1,7 @@
 import { type Request, type Response } from 'express';
-import { DISchema } from '../models/schemas.js';
 import { aiProcessor } from '../services/ai-processor-service.js';
 import { aiModel, promptDI } from '../utils/ai-settings.js';
+import { DISchema } from '../models/di.js';
 
 export async function diController(req: Request, res: Response) {
   if (!req.file) {
