@@ -1,8 +1,9 @@
 import OpenAI from 'openai';
 import { zodTextFormat } from 'openai/helpers/zod';
 import z from 'zod';
+import { config } from '../config/env.js';
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAI({ apiKey: config.openaiKey });
 
 export async function aiProcessor<T>(
   fileBase64: string,

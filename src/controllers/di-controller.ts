@@ -1,7 +1,8 @@
 import { type Request, type Response } from 'express';
-import { aiProcessor } from '../services/ai-processor-service.js';
-import { aiModel, promptDI } from '../utils/ai-settings.js';
+import { config } from '../config/env.js';
 import { DISchema } from '../models/di.js';
+import { aiProcessor } from '../services/ai-processor-service.js';
+import { promptDI } from '../utils/ai-settings.js';
 
 export async function diController(req: Request, res: Response) {
   if (!req.file) {
@@ -12,7 +13,7 @@ export async function diController(req: Request, res: Response) {
     const fileBuffer = req.file.buffer;
     const fileBase64 = fileBuffer.toString('base64');
 
-    const extractedAi = await aiProcessor(fileBase64, aiModel, promptDI, DISchema);
+    const extractedAi = await aiProcessor(fileBase64, config.aiModel, promptDI, DISchema);
 
     if (!extractedAi) {
       return res.status(400).json({

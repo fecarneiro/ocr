@@ -15,18 +15,18 @@ export async function dtaController(req: Request, res: Response) {
       res.status(200).json({
         success: true,
         data: extractedText.data,
-        message: 'Text extracted using AI',
+        message: 'Text extracted using Text Parse',
       });
     }
 
     const extractedOcr = await ocrProcessor(fileBuffer);
 
     if (extractedOcr.success) {
-      return {
+      res.status(200).json({
         success: true,
         data: extractedOcr.data,
         message: 'Text extracted using PDF OCR',
-      };
+      });
     }
 
     return {

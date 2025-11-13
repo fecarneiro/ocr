@@ -1,7 +1,8 @@
 import { type Request, type Response } from 'express';
+import { config } from '../config/env.js';
 import { NFeSchema } from '../models/nfe.js';
 import { aiProcessor } from '../services/ai-processor-service.js';
-import { aiModel, promptNFe } from '../utils/ai-settings.js';
+import { promptNFe } from '../utils/ai-settings.js';
 
 export async function nfeController(req: Request, res: Response) {
   if (!req.file) {
@@ -11,7 +12,7 @@ export async function nfeController(req: Request, res: Response) {
   try {
     const fileBuffer = req.file.buffer;
     const fileBase64 = fileBuffer.toString('base64');
-    const extractedAi = await aiProcessor(fileBase64, aiModel, promptNFe, NFeSchema);
+    const extractedAi = await aiProcessor(fileBase64, config.aiModel, promptNFe, NFeSchema);
 
     if (!extractedAi) {
       return res.status(400).json({

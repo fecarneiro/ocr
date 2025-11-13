@@ -69,7 +69,6 @@ export async function ocrProcessor(
     const images = await pdfToImage(fileBuffer);
     const optimizedImages = await optimizeImage(images);
     const text = await recognizeImage(worker, optimizedImages);
-    console.log(text);
     const ocrExtractionResult = regexMatch(text);
     return { success: true, data: ocrExtractionResult };
   } catch (error) {
