@@ -87,9 +87,18 @@
               method: 'POST',
               body: formData,
             });
-            //
-            const data = await response.json();
-            console.log(data);
+
+            resultDiv = document.getElementById('result');
+            resultDiv.textContent = '';
+
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+              resultDiv.textContent = `Error: ${result.message}`;
+              return;
+            }
+
+            resultDiv.textContent = JSON.stringify(result.data, null, 2);
           } catch (error) {
             console.error('Error sending DTA', error);
           }
