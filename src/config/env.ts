@@ -12,6 +12,6 @@ interface Config {
 export const config: Config = {
   port: Number(process.env.PORT) || 3000,
   nodeEnv: String(process.env.NODE_ENV) || 'developer',
-  openaiKey: String(process.env.OPENAI_KEY),
+  openaiKey: String(process.env.OPENAI_API_KEY),
   aiModel: String(process.env.AI_MODEL) || 'gpt-4o-mini',
 };

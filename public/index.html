@@ -68,16 +68,22 @@
 
       <input type="file" name="dta" id="dta" required />
       <button onclick="uploadFile('dta')">Send DTA File</button>
-      <div id="result"></div>
 
+      <input type="file" name="di" id="di" required />
+      <button onclick="uploadFile('di')">Send DI File</button>
+
+      <input type="file" name="nfe" id="nfe" required />
+      <button onclick="uploadFile('nfe')">Send NFe File</button>
+
+      <div id="result"></div>
       <script>
         async function uploadFile(inputID) {
           try {
-            const dtaInput = document.getElementById(inputID);
-            const dtaFile = dtaInput.files[0];
+            const docInput = document.getElementById(inputID);
+            const dtaFile = docInput.files[0];
 
             const formData = new FormData();
-            formData.append('dta', dtaFile);
+            formData.append(inputID, dtaFile);
 
             const response = await fetch(`/api/upload/${inputID}`, {
               method: 'POST',
@@ -94,13 +100,17 @@
             }
 
             // resultDiv.textContent = JSON.stringify(result.data, null, 2);
-            for (key in Object.entries(result.data)) {
-              console.log(`${key} - ${value}`);
+            // for ([key, value] of Object.entries(result.data)) {
+            //   resultDiv.innerHTML = `<pre>${key}: ${value}</pre>`;
+            // }
+
+            for ([key, value] of Object.entries(result.data)) {
+              resultDiv.innerHTML += `<pre>${key}: ${value}</pre>`;
             }
 
-            resultDiv.innerHTML = `
-            <pre>${JSON.stringify(result.data, null, 2)}</pre>;
-            `;
+            // resultDiv.innerHTML = `
+            // <pre>${JSON.stringify(result.data, null, 2)}</pre>;
+            // `;
           } catch (error) {
             console.error('Error sending DTA', error);
           }
