@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Page description" />
-    <title>Document</title>
+    <meta name="description" content="Doc Extraction" />
+
+    <title>Doc Extraction</title>
 
     <!-- Google Fonts - Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -35,6 +36,7 @@
       html {
         font-size: 62.5%; /* 1rem = 10px for easier calculations */
         scroll-behavior: smooth;
+        justify-content: center;
       }
 
       /* Body styling */
@@ -51,29 +53,51 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
       }
+      root {
+      }
+      .doc-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
 
-      /* Remove default button styles */
-      /* button {
+      /* Remove default button styles  */
+      button {
         cursor: pointer;
         border: none;
         background: none;
-        background-color: var(--color-primary);
-      } */
+      }
+
+      .doc-type-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
     </style>
   </head>
   <body>
-    <h1>Upload your document</h1>
-    <div>
-      <p>DTA extraction</p>
+    <main>
+      <div class="doc-container">
+        <h1>Upload your document</h1>
 
-      <input type="file" name="dta" id="dta" required />
-      <button onclick="uploadFile('dta')">Send DTA File</button>
+        <div class="doc-type-container">
+          <h2>DTA extraction</h2>
+          <input type="file" name="dta" id="dta" required />
+          <button onclick="uploadFile('dta')">Send DTA File</button>
+        </div>
 
-      <input type="file" name="di" id="di" required />
-      <button onclick="uploadFile('di')">Send DI File</button>
+        <div class="doc-type-container">
+          <h2>DTA extraction</h2>
+          <input type="file" name="di" id="di" required />
+          <button onclick="uploadFile('di')">Send DI File</button>
+        </div>
 
-      <input type="file" name="nfe" id="nfe" required />
-      <button onclick="uploadFile('nfe')">Send NFe File</button>
+        <div class="doc-type-container">
+          <h2>NFe extraction</h2>
+          <input type="file" name="nfe" id="nfe" required />
+          <button onclick="uploadFile('nfe')">Send NFe File</button>
+        </div>
+      </div>
 
       <div id="result"></div>
       <script>
@@ -116,6 +140,6 @@
           }
         }
       </script>
-    </div>
+    </main>
   </body>
 </html>
