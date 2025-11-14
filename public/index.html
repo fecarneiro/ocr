@@ -65,32 +65,27 @@
     <h1>Upload your document</h1>
     <div>
       <p>DTA extraction</p>
-      <!-- <form action="/api/upload/dta" method="POST" enctype="multipart/form-data">
-        <input type="file" name="dta" required />
-        <input type="submit" value="Submit" />
-      </form> -->
 
       <input type="file" name="dta" id="dta" required />
-      <button onclick="uploadFile()">Send DTA File</button>
+      <button onclick="uploadFile('dta')">Send DTA File</button>
       <div id="result"></div>
 
       <script>
-        async function uploadFile() {
+        async function uploadFile(inputID) {
           try {
-            const dtaInput = document.getElementById('dta');
+            const dtaInput = document.getElementById(inputID);
             const dtaFile = dtaInput.files[0];
 
             const formData = new FormData();
             formData.append('dta', dtaFile);
 
-            const response = await fetch('http://localhost:3000/api/upload/dta', {
+            const response = await fetch(`/api/upload/${inputID}`, {
               method: 'POST',
               body: formData,
             });
 
-            resultDiv = document.getElementById('result');
+            const resultDiv = document.getElementById('result');
             resultDiv.textContent = '';
-
             const result = await response.json();
 
             if (!response.ok || !result.success) {
@@ -98,7 +93,14 @@
               return;
             }
 
-            resultDiv.textContent = JSON.stringify(result.data, null, 2);
+            // resultDiv.textContent = JSON.stringify(result.data, null, 2);
+            for (key in Object.entries(result.data)) {
+              console.log(`${key} - ${value}`);
+            }
+
+            resultDiv.innerHTML = `
+            <pre>${JSON.stringify(result.data, null, 2)}</pre>;
+            `;
           } catch (error) {
             console.error('Error sending DTA', error);
           }
