@@ -65,21 +65,34 @@
     <h1>Upload your document</h1>
     <div>
       <p>DTA extraction</p>
-      <form action="/api/upload/dta" method="POST" type="multipart/form-data">
-        <input type="file" name="dta" value="upload DTA" />
-      </form>
+      <!-- <form action="/api/upload/dta" method="POST" enctype="multipart/form-data">
+        <input type="file" name="dta" required />
+        <input type="submit" value="Submit" />
+      </form> -->
 
-      <button id="sendDTA">Send DTA</button>
+      <input type="file" name="dta" id="dta" required />
+      <button onclick="uploadFile()">Send DTA File</button>
+      <div id="result"></div>
 
       <script>
-        const sendDTAFile = document.getElementById('sendDTA');
-        sendDTAFile.addEventListener('click', () => {
+        async function uploadFile() {
           try {
-            fetch('http://localhost:3000/api/upload/dta');
+            const dtaInput = document.getElementById('dta');
+            const dtaFile = dtaInput.files[0];
+
+            const formData = new FormData();
+            formData.append('dta', dtaFile);
+
+            const response = await fetch('http://localhost:3000/api/upload/dta', {
+              method: 'POST',
+              body: formData,
+            });
+            const data = await response.json();
+            console.log(data);
           } catch (error) {
             console.error('Error sending DTA', error);
           }
-        });
+        }
       </script>
     </div>
   </body>
