@@ -135,7 +135,7 @@
             resultDiv.textContent = `Error: ${result.message}`;
             return;
           }
-
+          //
           for ([key, value] of Object.entries(result.data)) {
             resultDiv.innerHTML += `<pre>${key}: ${value}</pre>`;
           }
