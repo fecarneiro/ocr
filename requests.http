@@ -1,9 +1,0 @@
-POST http://localhost:3000/upload/dta
-Content-Type: multipart/form-data; boundary=boundary
-
---boundary
-Content-Disposition: form-data; name="file"; filename="dta5.pdf"
-Content-Type: application/pdf
-
-< ./data/input/dta5.pdf
---boundary--

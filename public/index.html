@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Page description" />
+    <title>Document</title>
+
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* CSS Variables for consistent theming */
+      :root {
+        --color-primary: #3b82f6;
+        --color-text: #1f2937;
+        --color-background: #ffffff;
+        --spacing-unit: 8px;
+        --border-radius: 4px;
+      }
+
+      /* CSS Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Base HTML configuration */
+      html {
+        font-size: 62.5%; /* 1rem = 10px for easier calculations */
+        scroll-behavior: smooth;
+      }
+
+      /* Body styling */
+      body {
+        font-family:
+          'Inter',
+          system-ui,
+          -apple-system,
+          sans-serif;
+        font-size: 1.6rem; /* 16px */
+        line-height: 1.6;
+        color: var(--color-text);
+        background-color: var(--color-background);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Remove default button styles */
+      /* button {
+        cursor: pointer;
+        border: none;
+        background: none;
+        background-color: var(--color-primary);
+      } */
+    </style>
+  </head>
+  <body>
+    <h1>Upload your document</h1>
+    <div>
+      <p>DTA extraction</p>
+      <form action="/api/upload/dta" method="POST" type="multipart/form-data">
+        <input type="file" name="dta" value="upload DTA" />
+      </form>
+
+      <button id="sendDTA">Send DTA</button>
+
+      <script>
+        const sendDTAFile = document.getElementById('sendDTA');
+        sendDTAFile.addEventListener('click', () => {
+          try {
+            fetch('http://localhost:3000/api/upload/dta');
+          } catch (error) {
+            console.error('Error sending DTA', error);
+          }
+        });
+      </script>
+    </div>
+  </body>
+</html>
