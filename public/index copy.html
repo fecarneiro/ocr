@@ -97,19 +97,38 @@
           </select>
         </div>
 
-        <input type="file" id="file" required />
-        <button onclick="uploadFile()">Send File</button>
+        <input type="file" required />
+        <button onclick="uploadFile()">Send DTA File</button>
+
+        <!-- <div class="doc-type-container">
+          <h2>DTA extraction</h2>
+          <input type="file" name="dta" id="dta" required />
+          <button onclick="uploadFile('dta')">Send DTA File</button>
+        </div>
+
+        <div class="doc-type-container">
+          <h2>DI extraction</h2>
+          <input type="file" name="di" id="di" required />
+          <button onclick="uploadFile('di')">Send DI File</button>
+        </div>
+
+        <div class="doc-type-container">
+          <h2>NFe extraction</h2>
+          <input type="file" name="nfe" id="nfe" required />
+          <button onclick="uploadFile('nfe')">Send NFe File</button>
+        </div> -->
       </div>
 
       <div id="result"></div>
       <script>
         async function uploadFile() {
           try {
+            // const docInput = document.getElementById(inputID);
             const docType = document.getElementById('dropdown').value;
-            const fileInput = document.getElementById('file');
-            const file = fileInput.files[0];
+            const file = docType.files[0];
 
             const formData = new FormData();
+            // formData.append(inputID, file);
             formData.append(docType, file);
 
             const response = await fetch(`/api/upload/${docType}`, {
